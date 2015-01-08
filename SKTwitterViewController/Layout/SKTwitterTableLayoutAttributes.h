@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  SKTwitterTableLayoutAttributes.h
 //  SKTwitterViewControllerDemo
 //
 //  Created by Shrek Wang on 1/8/15.
@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface SKTwitterTableLayoutAttributes : UICollectionViewLayoutAttributes
+
 
 
 @end
-
