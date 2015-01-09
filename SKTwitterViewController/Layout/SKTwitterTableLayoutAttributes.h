@@ -8,8 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SKTwitterTableLayoutAttributes : UICollectionViewLayoutAttributes
+#pragma mark - layout constants
 
+extern CGFloat kTextViewContentInsetsTop;
+extern CGFloat kTextViewContentInsetsLeft;
+extern CGFloat kTextViewContentInsetsBottom;
+extern CGFloat kTextViewContentInsetsRight;
 
+@interface SKTwitterTableLayoutAttributes : UICollectionViewLayoutAttributes <NSCopying>
+
+@property (assign, nonatomic) CGFloat textViewVerticalSpacing;
+@property (assign, nonatomic) CGFloat textViewHeight;
+
+@property (assign, nonatomic) CGFloat mediaCollectionHolderViewVerticalSpacing;
+@property (assign, nonatomic) CGFloat mediaCollectionHolderViewHeight;
 
 @end

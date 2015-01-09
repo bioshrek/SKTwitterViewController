@@ -16,9 +16,23 @@
 
 @property (nonatomic, weak) IBOutlet SKTwitterCollectionView *collectionView;
 
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
+
 @end
 
 @implementation SKTwitterViewController
+
+#pragma mark - getter
+
+- (NSDateFormatter *)dateFormatter
+{
+    if (!_dateFormatter) {
+        _dateFormatter = [[NSDateFormatter alloc] init];
+        [_dateFormatter setDateStyle:NSDateFormatterShortStyle];
+        [_dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    }
+    return _dateFormatter;
+}
 
 #pragma mark - nib
 
@@ -67,6 +81,14 @@
     NSString *cellIdentifier = [SKTwitterCollectionViewCell cellReuseIdentifier];
     SKTwitterCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     
+    id<SKTwitterCollectionViewDataSource> dataSource = collectionView.skTwitterCollectionViewDataSource;
+    NSInteger row = indexPath.item;
+    
+    // text view
+    UIImage *avaTorImage = [dataSource collectionView:collectionView avatorImageForItemAtRow:row];
+    id<SKTwitterAlbum> album = [dataSource collectionView:collectionView albumForItemAtRow:row];
+    [self renderCell:cell avatorImage:avaTorImage album:album];
+    
     // TODO:
     
     return cell;
@@ -78,6 +100,30 @@
                   layout:(SKTwitterTableLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     return [collectionViewLayout sizeForItemAtIndexPath:indexPath];
+}
+
+#pragma mark - Cell rendering
+
+// render user info
+- (void)renderCell:(SKTwitterCollectionViewCell *)cell
+       avatorImage:(UIImage *)avatorImage
+             album:(id<SKTwitterAlbum>)album
+{
+    if (cell) {
+        cell.avatorImageView.image = avatorImage;
+        cell.nameLabel.text = [album userName];
+        
+        // date
+        cell.dateTimeLabel.text = [self.dateFormatter stringFromDate:[album date]];
+        
+        NSUInteger replyCount = [album replyCount];
+        [cell.replyButton setTitle:replyCount ? [NSString stringWithFormat:@"%d", (int)replyCount] : @""
+                          forState:UIControlStateNormal];
+        
+        cell.textView.attributedText = [album attributedText];
+        
+        // TODO: media collection view
+    }
 }
 
 /*

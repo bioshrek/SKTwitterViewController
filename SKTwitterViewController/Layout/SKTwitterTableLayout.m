@@ -11,7 +11,29 @@
 #import "SKTwitterTableLayoutAttributes.h"
 #import "SKTwitterTableLayoutInvalidationContext.h"
 
+#pragma mark - layout constants
+
+CGFloat kUserInfoHolderViewHeight = 44.0f;
+CGFloat kVerticalSpacing = 8.0f;
+
+
+@interface SKTwitterTableLayout ()
+
+@property (nonatomic, strong) NSCache *textViewHeightCache;
+
+@end
+
 @implementation SKTwitterTableLayout
+
+#pragma mark - getter
+
+- (NSCache *)textViewHeightCache
+{
+    if (!_textViewHeightCache) {
+        _textViewHeightCache = [[NSCache alloc] init];
+    }
+    return _textViewHeightCache;
+}
 
 #pragma mark - life cycle
 
@@ -43,8 +65,8 @@
 - (void)commonInitSKTwitterTableLayoutAttributes
 {
     self.scrollDirection = UICollectionViewScrollDirectionVertical;
-    self.sectionInset = UIEdgeInsetsMake(10.0f, 4.0f, 10.0f, 4.0f);
-    self.minimumLineSpacing = 4.0f;
+    self.sectionInset = UIEdgeInsetsMake(10.0f, 8.0f, 10.0f, 8.0f);
+    self.minimumLineSpacing = 20.0f;
 }
 
 #pragma mark - getter
@@ -83,7 +105,7 @@
     
     [attributesInRect enumerateObjectsUsingBlock:^(SKTwitterTableLayoutAttributes *attributesItem, NSUInteger idx, BOOL *stop) {
         if (attributesItem.representedElementCategory == UICollectionElementCategoryCell) {
-            [self configureMessageCellLayoutAttributes:attributesItem];
+            [self configureAlbumCellLayoutAttributes:attributesItem];
         }
         else {
             attributesItem.zIndex = -1;
@@ -98,7 +120,7 @@
     SKTwitterTableLayoutAttributes *customAttributes = (SKTwitterTableLayoutAttributes *)[super layoutAttributesForItemAtIndexPath:indexPath];
     
     if (customAttributes.representedElementCategory == UICollectionElementCategoryCell) {
-        [self configureMessageCellLayoutAttributes:customAttributes];
+        [self configureAlbumCellLayoutAttributes:customAttributes];
     }
     
     return customAttributes;
@@ -126,7 +148,7 @@
             SKTwitterTableLayoutAttributes *attributes = [SKTwitterTableLayoutAttributes layoutAttributesForCellWithIndexPath:updateItem.indexPathAfterUpdate];
             
             if (attributes.representedElementCategory == UICollectionElementCategoryCell) {
-                [self configureMessageCellLayoutAttributes:attributes];
+                [self configureAlbumCellLayoutAttributes:attributes];
             }
             
             attributes.frame = CGRectMake(0.0f,
@@ -139,22 +161,83 @@
 
 #pragma mark - calculate layout attributes
 
-- (void)configureMessageCellLayoutAttributes:(SKTwitterTableLayoutAttributes *)layoutAttributes
+- (void)configureAlbumCellLayoutAttributes:(SKTwitterTableLayoutAttributes *)layoutAttributes
 {
     // TODO:
+    NSInteger row = layoutAttributes.indexPath.item;
+    
+    
+    id<SKTwitterCollectionViewDataSource> dataSource = self.collectionView.skTwitterCollectionViewDataSource;
+    id<SKTwitterAlbum> album = [dataSource collectionView:self.collectionView albumForItemAtRow:row];
+    
+    
+    // text height
+    NSAttributedString *attributedText = [album attributedText];
+    CGFloat textViewHeight = [self heightForTextViewWithAttributedText:attributedText];
+    layoutAttributes.textViewHeight = textViewHeight;
+    layoutAttributes.textViewVerticalSpacing = textViewHeight ? kVerticalSpacing : 0;
+    
+    
+    // TODO: media collection view height
+    layoutAttributes.mediaCollectionHolderViewHeight = 0.0f;
+    layoutAttributes.mediaCollectionHolderViewVerticalSpacing = 0.0f;
 }
 
-- (CGFloat)heightForItemAtIndexPath:(NSIndexPath *)indexPath
+// item height
+- (CGFloat)heightForItemWithAttributedText:(NSAttributedString *)attributedText
 {
     // TODO:
-    return 44.0f;
+    CGFloat textViewHeight = [self heightForTextViewWithAttributedText:attributedText];
+    CGFloat textViewVerticalSpacing = textViewHeight ? kVerticalSpacing : 0;
+    
+    BOOL hasMediaCollection = NO;
+    CGFloat mediaCollectionViewHeight = 0.0f;
+    CGFloat mediaCollectionViewVerticalSpacing = mediaCollectionViewHeight ? kVerticalSpacing : 0;
+    
+    CGFloat totalHeight =   kUserInfoHolderViewHeight +
+    textViewHeight + textViewVerticalSpacing +
+    mediaCollectionViewHeight + mediaCollectionViewVerticalSpacing;
+    
+    return totalHeight;
+}
+
+// text view height
+- (CGFloat)heightForTextViewWithAttributedText:(NSAttributedString *)attributedText
+{
+    CGFloat height = 0.0f;
+    
+    if ([attributedText length]) {
+        id cacheKey = @([attributedText.string hash]);
+        NSNumber *heightValue = [self.textViewHeightCache objectForKey:cacheKey];
+        
+        if (!heightValue) {
+            CGFloat maxWidth = self.itemWidth;
+            CGRect rect = [attributedText boundingRectWithSize:CGSizeMake(maxWidth, CGFLOAT_MAX)
+                                                       options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
+                                                       context:nil];
+            height = rect.size.height + kTextViewContentInsetsTop + kTextViewContentInsetsBottom;
+            
+            heightValue = [NSNumber numberWithFloat:height];
+            [self.textViewHeightCache setObject:heightValue forKey:cacheKey];
+        } else {
+            height = [heightValue floatValue];
+        }
+    }
+    
+    return height;
 }
 
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat finalHeight = [self heightForItemAtIndexPath:indexPath];
+    NSInteger row = indexPath.item;
     
-    return CGSizeMake(self.itemWidth, ceilf(finalHeight));
+    // text height
+    id<SKTwitterCollectionViewDataSource> dataSource = self.collectionView.skTwitterCollectionViewDataSource;
+    id<SKTwitterAlbum> album = [dataSource collectionView:self.collectionView albumForItemAtRow:row];
+    NSAttributedString *attributedText = [album attributedText];
+    CGFloat totalHeight = [self heightForItemWithAttributedText:attributedText];
+    
+    return CGSizeMake(self.itemWidth, ceilf(totalHeight));
 }
 
 

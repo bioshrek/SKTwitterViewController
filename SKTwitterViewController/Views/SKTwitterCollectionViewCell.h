@@ -10,6 +10,19 @@
 
 @interface SKTwitterCollectionViewCell : UICollectionViewCell
 
+@property (weak, nonatomic, readonly) UIImageView *avatorImageView;
+@property (weak, nonatomic, readonly) UILabel *nameLabel;
+@property (weak, nonatomic, readonly) UILabel *dateTimeLabel;
+@property (weak, nonatomic, readonly) UIButton *replyButton;
+@property (weak, nonatomic, readonly) NSLayoutConstraint *UserInfoHolderViewHeightConstraint;
+
+@property (weak, nonatomic, readonly) UITextView *textView;
+@property (weak, nonatomic, readonly) NSLayoutConstraint *textViewHeightConstraint;
+
+@property (weak, nonatomic, readonly) UIView *mediaCollectionHolderView;
+@property (weak, nonatomic, readonly) NSLayoutConstraint *mediaCollectionHolderViewHeightConstraint;
+@property (weak, nonatomic) UICollectionView *mediaCollectionView;
+
 /**
  *  Returns the `UINib` object initialized for the cell.
  *
