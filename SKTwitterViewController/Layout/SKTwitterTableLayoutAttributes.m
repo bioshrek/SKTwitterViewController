@@ -10,12 +10,6 @@
 
 #pragma mark - layout constants
 
-CGFloat kTextViewContentInsetsTop = 8.0f;
-CGFloat kTextViewContentInsetsLeft = 4.0f;
-CGFloat kTextViewContentInsetsBottom = 8.0f;
-CGFloat kTextViewContentInsetsRight = 4.0f;
-
-
 @implementation SKTwitterTableLayoutAttributes
 
 #pragma mark - NSCopying

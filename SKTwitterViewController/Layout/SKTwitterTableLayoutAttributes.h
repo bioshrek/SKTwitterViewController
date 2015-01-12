@@ -10,11 +10,6 @@
 
 #pragma mark - layout constants
 
-extern CGFloat kTextViewContentInsetsTop;
-extern CGFloat kTextViewContentInsetsLeft;
-extern CGFloat kTextViewContentInsetsBottom;
-extern CGFloat kTextViewContentInsetsRight;
-
 @interface SKTwitterTableLayoutAttributes : UICollectionViewLayoutAttributes <NSCopying>
 
 @property (assign, nonatomic) CGFloat textViewVerticalSpacing;

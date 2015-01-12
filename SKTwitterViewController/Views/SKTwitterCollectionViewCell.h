@@ -18,12 +18,11 @@
 @property (weak, nonatomic, readonly) UIButton *replyButton;
 @property (weak, nonatomic, readonly) NSLayoutConstraint *UserInfoHolderViewHeightConstraint;
 
-@property (weak, nonatomic, readonly) UITextView *textView;
-@property (weak, nonatomic, readonly) NSLayoutConstraint *textViewHeightConstraint;
+@property (weak, nonatomic, readonly) UILabel *textLabel;
+@property (weak, nonatomic, readonly) NSLayoutConstraint *textLabelHeightConstraint;
 
-@property (weak, nonatomic, readonly) UICollectionReusableView *mediaCollectionHolderView;
-@property (weak, nonatomic, readonly) NSLayoutConstraint *mediaCollectionHolderViewHeightConstraint;
-@property (weak, nonatomic) SKTwitterMediaCollectionView *mediaCollectionView;
+@property (weak, nonatomic, readonly) NSLayoutConstraint *mediaCollectionViewHeightConstraint;
+@property (weak, nonatomic, readonly) SKTwitterMediaCollectionView *mediaCollectionView;
 
 /**
  *  Returns the `UINib` object initialized for the cell.

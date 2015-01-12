@@ -20,13 +20,13 @@
 @property (weak, nonatomic) IBOutlet UIButton *replyButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *UserInfoHolderViewHeightConstraint;
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewVerticalSpacing;
-@property (weak, nonatomic) IBOutlet UITextView *textView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textLabelVerticalSpacing;
+@property (weak, nonatomic) IBOutlet UILabel *textLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textLabelHeightConstraint;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *mediaCollectionViewVerticalSpacing;
-@property (weak, nonatomic) IBOutlet UICollectionReusableView *mediaCollectionHolderView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *mediaCollectionHolderViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet SKTwitterMediaCollectionView *mediaCollectionView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *mediaCollectionViewHeightConstraint;
 
 @end
 
@@ -48,10 +48,6 @@
     [super awakeFromNib];
     
     // TODO:
-    self.textView.contentInset = UIEdgeInsetsMake(kTextViewContentInsetsTop,
-                                                  kTextViewContentInsetsLeft,
-                                                  kTextViewContentInsetsBottom,
-                                                  kTextViewContentInsetsRight);
 }
 
 #pragma mark - Collection view cell
@@ -65,12 +61,9 @@
     self.dateTimeLabel.text = @"";
     [self.replyButton setTitle:@"" forState:UIControlStateNormal];
     
-    self.textView.text = @"";
+    self.textLabel.text = @"";
     
-    // recycle media collection view
-    [self.mediaCollectionView removeFromSuperview];
-    [self.mediaCollectionView.mediaCollectionViewDelegate recycleMediaCollectionView:self.mediaCollectionView];
-    self.mediaCollectionView = nil;
+    [self.mediaCollectionView prepareForReuse];
 }
 
 - (void)applyLayoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes
@@ -80,13 +73,12 @@
     SKTwitterTableLayoutAttributes *customAttributes = (SKTwitterTableLayoutAttributes *)layoutAttributes;
     
     // text view
-    self.textViewHeightConstraint.constant = customAttributes.textViewHeight;
-    self.textViewVerticalSpacing.constant = customAttributes.textViewVerticalSpacing;
-    
+    self.textLabel.preferredMaxLayoutWidth = CGRectGetWidth(customAttributes.frame) - 8 - 8;
+    self.textLabelHeightConstraint.constant = customAttributes.textViewHeight;
+    self.textLabelVerticalSpacing.constant = customAttributes.textViewVerticalSpacing;
     
     // TODO: media collection view
-    self.mediaCollectionHolderViewHeightConstraint.constant = customAttributes.mediaCollectionHolderViewHeight;
+    self.mediaCollectionViewHeightConstraint.constant = customAttributes.mediaCollectionHolderViewHeight;
     self.mediaCollectionViewVerticalSpacing.constant = customAttributes.mediaCollectionHolderViewVerticalSpacing;
 }
-
 @end

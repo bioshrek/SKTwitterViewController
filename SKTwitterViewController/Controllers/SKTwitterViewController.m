@@ -95,7 +95,10 @@
     [self renderCell:cell avatorImage:avaTorImage album:album];
     
     // media collection view
-    [self renderCell:cell albumCollectionView:collectionView indexPath:indexPath];
+    cell.mediaCollectionView.albumIndexPath = indexPath;
+    cell.mediaCollectionView.dataSource = collectionView;
+    cell.mediaCollectionView.delegate = collectionView;
+    [cell.mediaCollectionView reloadData];
     
     return cell;
 }
@@ -126,22 +129,7 @@
         [cell.replyButton setTitle:replyCount ? [NSString stringWithFormat:@"%d", (int)replyCount] : @""
                           forState:UIControlStateNormal];
         
-        cell.textView.attributedText = [album attributedText];
-    }
-}
-
-// render media collection view
-- (void)renderCell:(SKTwitterCollectionViewCell *)cell albumCollectionView:(SKTwitterCollectionView *)albumCollectionView indexPath:(NSIndexPath *)indexPath
-{
-    SKTwitterMediaCollectionView *mediaCollectionView = [albumCollectionView dequeueReusableMediaCollectionViewForItemAtIndexPath:indexPath];
-    
-    if (mediaCollectionView) {
-        mediaCollectionView.frame = cell.mediaCollectionHolderView.bounds;
-        
-        [cell.mediaCollectionHolderView addSubview:mediaCollectionView];
-        cell.mediaCollectionView = mediaCollectionView;
-        
-//        [mediaCollectionView reloadData];
+        cell.textLabel.attributedText = [album attributedText];
     }
 }
 

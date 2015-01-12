@@ -11,6 +11,7 @@
 #import "SKTwitterTableLayoutAttributes.h"
 #import "SKTwitterTableLayoutInvalidationContext.h"
 #import "SKTwitterMediaCollectionView.h"
+#import "SKTwitterMediaCollectionViewFlowLayout.h"
 
 #pragma mark - layout constants
 
@@ -23,6 +24,8 @@ CGFloat kVerticalSpacing = 8.0f;
 @property (nonatomic, strong) NSCache *textViewHeightCache;
 
 @property (nonatomic, strong) NSCache *mediaCollectionHeightCache;
+
+@property (nonatomic, strong) SKTwitterMediaCollectionView *mediaCollectionViewForCalculatingLayout;
 
 @end
 
@@ -44,6 +47,18 @@ CGFloat kVerticalSpacing = 8.0f;
         _mediaCollectionHeightCache = [[NSCache alloc] init];
     }
     return _mediaCollectionHeightCache;
+}
+
+- (SKTwitterMediaCollectionView *)mediaCollectionViewForCalculatingLayout
+{
+    if (!_mediaCollectionViewForCalculatingLayout) {
+        SKTwitterMediaCollectionView *mediaCollectionView = [[SKTwitterMediaCollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[[SKTwitterMediaCollectionViewFlowLayout alloc] init]];
+        mediaCollectionView.backgroundColor = [UIColor lightGrayColor];
+        mediaCollectionView.dataSource = self.collectionView;  // very important
+        mediaCollectionView.delegate = self.collectionView;  // very important
+        _mediaCollectionViewForCalculatingLayout = mediaCollectionView;
+    }
+    return _mediaCollectionViewForCalculatingLayout;
 }
 
 #pragma mark - life cycle
@@ -202,10 +217,9 @@ CGFloat kVerticalSpacing = 8.0f;
     CGFloat mediaCollectionHolderViewHeight = [self mediaCollectionViewHeightForAlbum:album albumIndexPath:indexPath];
     CGFloat mediaCollectionViewVerticalSpacing = mediaCollectionHolderViewHeight ? kVerticalSpacing : 0;
     
-    CGFloat totalHeight =   kUserInfoHolderViewHeight +
-    textViewHeight + textViewVerticalSpacing +
-    mediaCollectionHolderViewHeight + mediaCollectionViewVerticalSpacing;
-    
+    CGFloat totalHeight =   kUserInfoHolderViewHeight + kVerticalSpacing +
+                            textViewHeight + textViewVerticalSpacing +
+                            mediaCollectionHolderViewHeight + mediaCollectionViewVerticalSpacing;
     return totalHeight;
 }
 
@@ -223,8 +237,7 @@ CGFloat kVerticalSpacing = 8.0f;
             CGRect rect = [attributedText boundingRectWithSize:CGSizeMake(maxWidth, CGFLOAT_MAX)
                                                        options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
                                                        context:nil];
-            height = rect.size.height + kTextViewContentInsetsTop + kTextViewContentInsetsBottom;
-            
+            height = rect.size.height;  // TODO: need minimal adjust
             heightValue = [NSNumber numberWithFloat:height];
             [self.textViewHeightCache setObject:heightValue forKey:cacheKey];
         } else {
@@ -232,7 +245,7 @@ CGFloat kVerticalSpacing = 8.0f;
         }
     }
     
-    return height;
+    return ceilf(height);
 }
 
 // media collection view height
@@ -241,10 +254,9 @@ CGFloat kVerticalSpacing = 8.0f;
 {
     CGFloat height = 0.0f;
     NSInteger numberOfMediaItems = [album numberOfMediaItems];
-
     if (numberOfMediaItems) {
         NSMutableArray *mediaDisplaySizeList = [[NSMutableArray alloc] init];
-        for (NSUInteger i = 0; i < [album numberOfMediaItems]; i++) {
+        for (NSUInteger i = 0; i < numberOfMediaItems; i++) {
             @autoreleasepool {
                 id<SKTwitterAlbumMedia> media = [album albumMediaForItemAtIndex:i];
                 [mediaDisplaySizeList addObject:[NSValue valueWithCGSize:[media mediaDisplaySize]]];
@@ -252,24 +264,23 @@ CGFloat kVerticalSpacing = 8.0f;
         }
         NSNumber *heightValue = [self.mediaCollectionHeightCache objectForKey:mediaDisplaySizeList];
         if (!heightValue) {  // calculate
-            SKTwitterMediaCollectionView *mediaCollectionView = [self.collectionView dequeueReusableMediaCollectionViewForItemAtIndexPath:indexPath];
-            if (mediaCollectionView) {
-                [mediaCollectionView reloadData];
-                UICollectionViewLayout *layout = mediaCollectionView.collectionViewLayout;
-                CGSize contentSize = [layout collectionViewContentSize];
-//                height = contentSize.height;
-                height = 200;
-                [self.collectionView recycleMediaCollectionView:mediaCollectionView];
-                
-                heightValue = [NSNumber numberWithFloat:height];
-                [self.mediaCollectionHeightCache setObject:heightValue forKey:mediaDisplaySizeList];
-            }
+            CGFloat maxWidth = self.itemWidth;
+            self.mediaCollectionViewForCalculatingLayout.albumIndexPath = indexPath;
+            self.mediaCollectionViewForCalculatingLayout.bounds = CGRectMake(0, 0, maxWidth, 200);  // important: content size calculation needs max width
+            UICollectionViewLayout *layout = self.mediaCollectionViewForCalculatingLayout.collectionViewLayout;
+            [self.mediaCollectionViewForCalculatingLayout reloadData];
+            [layout invalidateLayout];
+            CGSize contentSize = [layout collectionViewContentSize];
+            height = contentSize.height;
+            
+            heightValue = [NSNumber numberWithFloat:height];
+            [self.mediaCollectionHeightCache setObject:heightValue forKey:mediaDisplaySizeList];
         } else {  // cached
             height = [heightValue floatValue];
         }
     }
     
-    return height;
+    return ceilf(height);
 }
 
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath

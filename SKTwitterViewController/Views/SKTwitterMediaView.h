@@ -12,12 +12,6 @@
 
 @class SKTwitterMediaView;
 
-@protocol SKTwitterMediaViewDelegate <NSObject>
-
-- (void)recycleMediaView:(SKTwitterMediaView *)mediaView;
-
-@end
-
 @interface SKTwitterMediaView : UICollectionViewCell
 
 @property (nonatomic, weak, readonly) UIImageView *backgroundImageView;
@@ -34,8 +28,6 @@
 
 @property (nonatomic, weak, readonly) UIButton *mediaIconButton;
 @property (weak, nonatomic, readonly) NSLayoutConstraint *mediaIconButtonCenterYConstraint;
-
-@property (nonatomic, weak) id<SKTwitterMediaViewDelegate> delegate;
 
 + (UINib *)nib;
 

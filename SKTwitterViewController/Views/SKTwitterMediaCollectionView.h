@@ -10,17 +10,9 @@
 
 @class SKTwitterMediaCollectionView;
 
-@protocol SKTwitterMediaCollectionViewDelegate <NSObject>
-
-- (void)recycleMediaCollectionView:(SKTwitterMediaCollectionView *)mediaCollectionView;
-
-@end
-
 @interface SKTwitterMediaCollectionView : UICollectionView
 
 @property (nonatomic, copy) NSIndexPath *albumIndexPath;
-
-@property (nonatomic, weak) id<SKTwitterMediaCollectionViewDelegate> mediaCollectionViewDelegate;
 
 @property (nonatomic, strong) NSMutableArray *mediaCells;
 

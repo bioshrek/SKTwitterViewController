@@ -95,6 +95,7 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                 </button>
             </subviews>
+            <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="5k3-XD-moR" firstAttribute="top" secondItem="Ygp-Sm-Zzv" secondAttribute="top" id="41g-K2-5ra"/>
                 <constraint firstItem="5k3-XD-moR" firstAttribute="leading" secondItem="Ygp-Sm-Zzv" secondAttribute="leading" id="CYz-SH-x02"/>

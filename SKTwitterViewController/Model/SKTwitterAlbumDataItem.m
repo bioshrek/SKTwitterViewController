@@ -44,7 +44,11 @@
 
 - (id<SKTwitterAlbumMedia>)albumMediaForItemAtIndex:(NSInteger)index
 {
-    return [self.mediaItems objectAtIndex:index];
+    id<SKTwitterAlbumMedia> media = nil;
+    
+    media = [self.mediaItems objectAtIndex:index];
+    
+    return media;
 }
 
 
