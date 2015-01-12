@@ -10,6 +10,7 @@
 
 #import "SKTwitterTableLayoutAttributes.h"
 #import "SKTwitterTableLayoutInvalidationContext.h"
+#import "SKTwitterMediaCollectionView.h"
 
 #pragma mark - layout constants
 
@@ -20,6 +21,8 @@ CGFloat kVerticalSpacing = 8.0f;
 @interface SKTwitterTableLayout ()
 
 @property (nonatomic, strong) NSCache *textViewHeightCache;
+
+@property (nonatomic, strong) NSCache *mediaCollectionHeightCache;
 
 @end
 
@@ -33,6 +36,14 @@ CGFloat kVerticalSpacing = 8.0f;
         _textViewHeightCache = [[NSCache alloc] init];
     }
     return _textViewHeightCache;
+}
+
+- (NSCache *)mediaCollectionHeightCache
+{
+    if (!_mediaCollectionHeightCache) {
+        _mediaCollectionHeightCache = [[NSCache alloc] init];
+    }
+    return _mediaCollectionHeightCache;
 }
 
 #pragma mark - life cycle
@@ -164,45 +175,42 @@ CGFloat kVerticalSpacing = 8.0f;
 - (void)configureAlbumCellLayoutAttributes:(SKTwitterTableLayoutAttributes *)layoutAttributes
 {
     // TODO:
-    NSInteger row = layoutAttributes.indexPath.item;
-    
+    NSIndexPath *indexPath = layoutAttributes.indexPath;
     
     id<SKTwitterCollectionViewDataSource> dataSource = self.collectionView.skTwitterCollectionViewDataSource;
-    id<SKTwitterAlbum> album = [dataSource collectionView:self.collectionView albumForItemAtRow:row];
-    
+    id<SKTwitterAlbum> album = [dataSource collectionView:self.collectionView albumForItemAtRow:indexPath.item];
     
     // text height
     NSAttributedString *attributedText = [album attributedText];
-    CGFloat textViewHeight = [self heightForTextViewWithAttributedText:attributedText];
+    CGFloat textViewHeight = [self textViewHeightForAttributedText:attributedText];
     layoutAttributes.textViewHeight = textViewHeight;
     layoutAttributes.textViewVerticalSpacing = textViewHeight ? kVerticalSpacing : 0;
     
-    
-    // TODO: media collection view height
-    layoutAttributes.mediaCollectionHolderViewHeight = 0.0f;
-    layoutAttributes.mediaCollectionHolderViewVerticalSpacing = 0.0f;
+    // media collection view height
+    CGFloat mediaCollectionHolderViewHeight = [self mediaCollectionViewHeightForAlbum:album albumIndexPath:indexPath];
+    layoutAttributes.mediaCollectionHolderViewHeight = mediaCollectionHolderViewHeight;
+    layoutAttributes.mediaCollectionHolderViewVerticalSpacing = mediaCollectionHolderViewHeight ? kVerticalSpacing : 0;
 }
 
 // item height
-- (CGFloat)heightForItemWithAttributedText:(NSAttributedString *)attributedText
+- (CGFloat)heightForItemWithAlbum:(id<SKTwitterAlbum>)album indexPath:(NSIndexPath *)indexPath
 {
-    // TODO:
-    CGFloat textViewHeight = [self heightForTextViewWithAttributedText:attributedText];
+    NSAttributedString *attributedText = [album attributedText];
+    CGFloat textViewHeight = [self textViewHeightForAttributedText:attributedText];
     CGFloat textViewVerticalSpacing = textViewHeight ? kVerticalSpacing : 0;
     
-    BOOL hasMediaCollection = NO;
-    CGFloat mediaCollectionViewHeight = 0.0f;
-    CGFloat mediaCollectionViewVerticalSpacing = mediaCollectionViewHeight ? kVerticalSpacing : 0;
+    CGFloat mediaCollectionHolderViewHeight = [self mediaCollectionViewHeightForAlbum:album albumIndexPath:indexPath];
+    CGFloat mediaCollectionViewVerticalSpacing = mediaCollectionHolderViewHeight ? kVerticalSpacing : 0;
     
     CGFloat totalHeight =   kUserInfoHolderViewHeight +
     textViewHeight + textViewVerticalSpacing +
-    mediaCollectionViewHeight + mediaCollectionViewVerticalSpacing;
+    mediaCollectionHolderViewHeight + mediaCollectionViewVerticalSpacing;
     
     return totalHeight;
 }
 
 // text view height
-- (CGFloat)heightForTextViewWithAttributedText:(NSAttributedString *)attributedText
+- (CGFloat)textViewHeightForAttributedText:(NSAttributedString *)attributedText
 {
     CGFloat height = 0.0f;
     
@@ -227,6 +235,43 @@ CGFloat kVerticalSpacing = 8.0f;
     return height;
 }
 
+// media collection view height
+- (CGFloat)mediaCollectionViewHeightForAlbum:(id<SKTwitterAlbum>)album
+           albumIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat height = 0.0f;
+    NSInteger numberOfMediaItems = [album numberOfMediaItems];
+
+    if (numberOfMediaItems) {
+        NSMutableArray *mediaDisplaySizeList = [[NSMutableArray alloc] init];
+        for (NSUInteger i = 0; i < [album numberOfMediaItems]; i++) {
+            @autoreleasepool {
+                id<SKTwitterAlbumMedia> media = [album albumMediaForItemAtIndex:i];
+                [mediaDisplaySizeList addObject:[NSValue valueWithCGSize:[media mediaDisplaySize]]];
+            }
+        }
+        NSNumber *heightValue = [self.mediaCollectionHeightCache objectForKey:mediaDisplaySizeList];
+        if (!heightValue) {  // calculate
+            SKTwitterMediaCollectionView *mediaCollectionView = [self.collectionView dequeueReusableMediaCollectionViewForItemAtIndexPath:indexPath];
+            if (mediaCollectionView) {
+                [mediaCollectionView reloadData];
+                UICollectionViewLayout *layout = mediaCollectionView.collectionViewLayout;
+                CGSize contentSize = [layout collectionViewContentSize];
+//                height = contentSize.height;
+                height = 200;
+                [self.collectionView recycleMediaCollectionView:mediaCollectionView];
+                
+                heightValue = [NSNumber numberWithFloat:height];
+                [self.mediaCollectionHeightCache setObject:heightValue forKey:mediaDisplaySizeList];
+            }
+        } else {  // cached
+            height = [heightValue floatValue];
+        }
+    }
+    
+    return height;
+}
+
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSInteger row = indexPath.item;
@@ -234,8 +279,7 @@ CGFloat kVerticalSpacing = 8.0f;
     // text height
     id<SKTwitterCollectionViewDataSource> dataSource = self.collectionView.skTwitterCollectionViewDataSource;
     id<SKTwitterAlbum> album = [dataSource collectionView:self.collectionView albumForItemAtRow:row];
-    NSAttributedString *attributedText = [album attributedText];
-    CGFloat totalHeight = [self heightForItemWithAttributedText:attributedText];
+    CGFloat totalHeight = [self heightForItemWithAlbum:album indexPath:indexPath];
     
     return CGSizeMake(self.itemWidth, ceilf(totalHeight));
 }

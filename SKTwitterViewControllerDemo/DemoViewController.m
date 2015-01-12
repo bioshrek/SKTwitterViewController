@@ -42,24 +42,28 @@
 - (NSArray *)sampleData
 {
     NSArray *mediaItems1 = @[
-                             [[SKTwitterAlbumMediaDataItem alloc] initWithMediaState:SKMessageMediaStateToBeDownloaded
+                             [[SKTwitterAlbumMediaDataItem alloc] initWithMediaDisplaySize:CGSizeMake(210, 150)
+                                                                                mediaState:SKMessageMediaStateToBeDownloaded
                                                              mediaNameAttributedText:[[NSAttributedString alloc] initWithString:@"Share your moments.txt"
                                                                                                                      attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:16.0f]}]
                                                              mediaSizeAttributedText:[[NSAttributedString alloc] initWithString:@"16.8 KB"
                                                                                                                      attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0f]}]],
-                             [[SKTwitterAlbumMediaDataItem alloc] initWithMediaState:SKMessageMediaStateToBeDownloaded
+                             [[SKTwitterAlbumMediaDataItem alloc] initWithMediaDisplaySize:CGSizeMake(210, 150)
+                                                                                mediaState:SKMessageMediaStateToBeDownloaded
                                                              mediaNameAttributedText:[[NSAttributedString alloc] initWithString:@"Your are beatutiful.mp3"
                                                                                                                      attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:16.0f]}]
                                                              mediaSizeAttributedText:[[NSAttributedString alloc] initWithString:@"4.6 MB"
                                                                                                                      attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0f]}]]
                              ];
     NSArray *mediaItem2 = @[
-                            [[SKTwitterAlbumMediaDataItem alloc] initWithMediaState:SKMessageMediaStateToBeDownloaded
+                            [[SKTwitterAlbumMediaDataItem alloc] initWithMediaDisplaySize:CGSizeMake(210, 150)
+                                                                               mediaState:SKMessageMediaStateToBeDownloaded
                                                             mediaNameAttributedText:[[NSAttributedString alloc] initWithString:@"Share your moments.txt"
                                                                                                                     attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:16.0f]}]
                                                             mediaSizeAttributedText:[[NSAttributedString alloc] initWithString:@"16.8 KB"
                                                                                                                     attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0f]}]],
-                            [[SKTwitterAlbumMediaDataItem alloc] initWithMediaState:SKMessageMediaStateToBeDownloaded
+                            [[SKTwitterAlbumMediaDataItem alloc] initWithMediaDisplaySize:CGSizeMake(210, 150)
+                                                                               mediaState:SKMessageMediaStateToBeDownloaded
                                                             mediaNameAttributedText:[[NSAttributedString alloc] initWithString:@"Your are beatutiful.mp3"
                                                                                                                     attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:16.0f]}]
                                                             mediaSizeAttributedText:[[NSAttributedString alloc] initWithString:@"4.6 MB"
@@ -70,7 +74,8 @@
                 [[SKTwitterAlbumDataItem alloc] initWithUseName:@"shrek"
                                                            date:[NSDate date]
                                                      replyCount:5
-                                                 attributedText:[[NSAttributedString alloc] initWithString:@"hello, nice day!" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:16.0f]}] mediaItems:mediaItems1],
+                                                 attributedText:[[NSAttributedString alloc] initWithString:@"hello, nice day!" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:16.0f]}]
+                                                     mediaItems:mediaItems1],
                 [[SKTwitterAlbumDataItem alloc] initWithUseName:@"shrek 2"
                                                            date:[NSDate date]
                                                      replyCount:20

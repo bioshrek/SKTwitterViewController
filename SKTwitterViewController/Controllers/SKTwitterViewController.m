@@ -51,6 +51,11 @@
     [self commonInitSKTwitterViewController];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
 - (void)commonInitSKTwitterViewController
 {
     self.view.backgroundColor = [UIColor whiteColor];
@@ -89,7 +94,8 @@
     id<SKTwitterAlbum> album = [dataSource collectionView:collectionView albumForItemAtRow:row];
     [self renderCell:cell avatorImage:avaTorImage album:album];
     
-    // TODO:
+    // media collection view
+    [self renderCell:cell albumCollectionView:collectionView indexPath:indexPath];
     
     return cell;
 }
@@ -104,7 +110,7 @@
 
 #pragma mark - Cell rendering
 
-// render user info
+// render album info, text
 - (void)renderCell:(SKTwitterCollectionViewCell *)cell
        avatorImage:(UIImage *)avatorImage
              album:(id<SKTwitterAlbum>)album
@@ -121,8 +127,21 @@
                           forState:UIControlStateNormal];
         
         cell.textView.attributedText = [album attributedText];
+    }
+}
+
+// render media collection view
+- (void)renderCell:(SKTwitterCollectionViewCell *)cell albumCollectionView:(SKTwitterCollectionView *)albumCollectionView indexPath:(NSIndexPath *)indexPath
+{
+    SKTwitterMediaCollectionView *mediaCollectionView = [albumCollectionView dequeueReusableMediaCollectionViewForItemAtIndexPath:indexPath];
+    
+    if (mediaCollectionView) {
+        mediaCollectionView.frame = cell.mediaCollectionHolderView.bounds;
         
-        // TODO: media collection view
+        [cell.mediaCollectionHolderView addSubview:mediaCollectionView];
+        cell.mediaCollectionView = mediaCollectionView;
+        
+//        [mediaCollectionView reloadData];
     }
 }
 

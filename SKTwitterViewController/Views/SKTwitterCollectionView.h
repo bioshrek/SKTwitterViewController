@@ -12,10 +12,30 @@
 
 #import "SKTwitterCollectionViewDataSource.h"
 
-@interface SKTwitterCollectionView : UICollectionView
+#import "SKTwitterMediaView.h"
+#import "SKTwitterMediaCollectionView.h"
+
+@interface SKTwitterCollectionView : UICollectionView <SKTwitterMediaViewDelegate, SKTwitterMediaCollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) SKTwitterTableLayout *collectionViewLayout;
 
 @property (nonatomic, weak) id<SKTwitterCollectionViewDataSource> skTwitterCollectionViewDataSource;
+
+@property (nonatomic, weak) SKTwitterMediaCollectionView *mediaCollectionViewForLayoutCalculation;
+
+#pragma mark - Reusing media collection view
+
+- (SKTwitterMediaCollectionView *)dequeueReusableMediaCollectionViewForItemAtIndexPath:(NSIndexPath *)indexPath;
+
+#pragma mark - Reusing media cell
+
+- (void)registerNib:(UINib *)nib forMediaViewWithReuseIdentifier:(NSString *)identifier;
+
+- (void)registerClass:(Class)cellClass forMediaViewWithReuseIdentifier:(NSString *)identifier;
+
+// dequeue media view
+- (SKTwitterMediaView *)dequeueReusableMediaViewWithReuseIdentifier:(NSString *)identifier
+                                                       forItemAtRow:(NSUInteger)row
+                                                      forMediaIndex:(NSUInteger)mediaIndex;
 
 @end

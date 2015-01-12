@@ -45,14 +45,16 @@
         nil;
 }
 
-- (instancetype)initWithMediaState:(SKMessageMediaState)mediaState
-           mediaNameAttributedText:(NSAttributedString *)mediaNameAttributedText
-           mediaSizeAttributedText:(NSAttributedString *)mediaSizeAttributedText
+- (instancetype)initWithMediaDisplaySize:(CGSize)mediaDisplaySize
+                              mediaState:(SKMessageMediaState)mediaState
+                 mediaNameAttributedText:(NSAttributedString *)mediaNameAttributedText
+                 mediaSizeAttributedText:(NSAttributedString *)mediaSizeAttributedText
 {
     NSParameterAssert([mediaNameAttributedText length]);
     NSParameterAssert([mediaSizeAttributedText length]);
     
     if (self = [super init]) {
+        _mediaDisplaySize = mediaDisplaySize;
         _mediaState = mediaState;
         _mediaProgress = [[NSProgress alloc] init];
         _mediaNameAttributedText = [mediaNameAttributedText copy];

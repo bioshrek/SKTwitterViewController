@@ -22,6 +22,9 @@ typedef NS_ENUM(NSInteger, SKMessageMediaState) {
 
 @protocol SKTwitterAlbumMedia <NSObject>
 
+// media display size
+- (CGSize)mediaDisplaySize;
+
 // media message state
 - (SKMessageMediaState)mediaState;
 - (void)setMediaState:(SKMessageMediaState)mediaState;

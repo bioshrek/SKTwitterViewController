@@ -10,6 +10,8 @@
 
 #import "SKTwitterTableLayoutAttributes.h"
 
+#import "SKTwitterMediaView.h"
+
 @interface SKTwitterCollectionViewCell ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatorImageView;
@@ -23,7 +25,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewHeightConstraint;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *mediaCollectionViewVerticalSpacing;
-@property (weak, nonatomic) IBOutlet UIView *mediaCollectionHolderView;
+@property (weak, nonatomic) IBOutlet UICollectionReusableView *mediaCollectionHolderView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *mediaCollectionHolderViewHeightConstraint;
 
 @end
@@ -65,8 +67,10 @@
     
     self.textView.text = @"";
     
+    // recycle media collection view
     [self.mediaCollectionView removeFromSuperview];
-    // TODO: reuse media collection view
+    [self.mediaCollectionView.mediaCollectionViewDelegate recycleMediaCollectionView:self.mediaCollectionView];
+    self.mediaCollectionView = nil;
 }
 
 - (void)applyLayoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes

@@ -6,11 +6,13 @@
 //  Copyright (c) 2015 Shrek. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 #import "SKTwitterAlbumMedia.h"
 
 @interface SKTwitterAlbumMediaDataItem : NSObject <SKTwitterAlbumMedia>
+
+@property (nonatomic, assign) CGSize mediaDisplaySize;
 
 @property (nonatomic, assign) SKMessageMediaState mediaState;
 
@@ -20,8 +22,9 @@
 
 @property (nonatomic, copy, readonly) NSAttributedString *mediaSizeAttributedText;
 
-- (instancetype)initWithMediaState:(SKMessageMediaState)mediaState
-           mediaNameAttributedText:(NSAttributedString *)mediaNameAttributedText
-           mediaSizeAttributedText:(NSAttributedString *)mediaSizeAttributedText;
+- (instancetype)initWithMediaDisplaySize:(CGSize)mediaDisplaySize
+                              mediaState:(SKMessageMediaState)mediaState
+                 mediaNameAttributedText:(NSAttributedString *)mediaNameAttributedText
+                 mediaSizeAttributedText:(NSAttributedString *)mediaSizeAttributedText;
 
 @end
