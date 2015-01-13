@@ -15,7 +15,7 @@
 
 #import "SKTwitterMediaCollectionView.h"
 
-@interface SKTwitterCollectionView : UICollectionView <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface SKTwitterCollectionView : UICollectionView
 
 @property (nonatomic, strong) SKTwitterTableLayout *collectionViewLayout;
 

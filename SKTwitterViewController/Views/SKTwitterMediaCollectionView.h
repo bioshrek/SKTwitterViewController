@@ -14,8 +14,6 @@
 
 @property (nonatomic, copy) NSIndexPath *albumIndexPath;
 
-@property (nonatomic, strong) NSMutableArray *mediaCells;
-
 - (void)prepareForReuse;
 
 @end

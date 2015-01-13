@@ -50,6 +50,7 @@
     
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
+    self.collectionView.skTwitterCollectionViewDataSource = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -59,36 +60,48 @@
 
 #pragma mark - Collection view data source
 
-- (NSInteger)collectionView:(SKTwitterCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    NSAssert(NO, @"subclass is required to override this method");
-    return 0;
+    NSInteger n = 0;
+    
+    if ([collectionView isKindOfClass:[SKTwitterCollectionView class]]) {
+        SKTwitterCollectionView *albumCollectionView = (SKTwitterCollectionView *)collectionView;
+        n = [self collectionView:albumCollectionView numberOfAlbumsInSection:section];
+    } else if ([collectionView isKindOfClass:[SKTwitterMediaCollectionView class]]) {
+        SKTwitterMediaCollectionView *mediaCollectionView = (SKTwitterMediaCollectionView *)collectionView;
+        n = [self numberOfMediaInSection:section forAlbumAtIndexPath:mediaCollectionView.albumIndexPath];
+    }
+    
+    return n;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    NSAssert(NO, @"subclass is required to override this method");
-    return 0;
+    NSInteger n = 0;
+    
+    if ([collectionView isKindOfClass:[SKTwitterCollectionView class]]) {
+        SKTwitterCollectionView *albumCollectionView = (SKTwitterCollectionView *)collectionView;
+        n = [self numberOfAlbumSectionsInCollectionView:albumCollectionView];
+    } else if ([collectionView isKindOfClass:[SKTwitterMediaCollectionView class]]) {
+        SKTwitterMediaCollectionView *mediaCollectionView = (SKTwitterMediaCollectionView *)collectionView;
+        n = [self numberOfMediaSectionsForAlbumAtIndexPath:mediaCollectionView.albumIndexPath];
+    }
+    
+    return n;
 }
 
-- (UICollectionViewCell *)collectionView:(SKTwitterCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                  cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *cellIdentifier = [SKTwitterCollectionViewCell cellReuseIdentifier];
-    SKTwitterCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    UICollectionViewCell *cell = nil;
     
-    id<SKTwitterCollectionViewDataSource> dataSource = collectionView.skTwitterCollectionViewDataSource;
-    
-    // text view
-    UIImage *avaTorImage = [dataSource collectionView:collectionView avatorImageForItemAtIndexPath:indexPath];
-    UIImage *replyButtonImage = [dataSource collectionView:collectionView replyButtonImageForItemAtIndexPath:indexPath];
-    id<SKTwitterAlbum> album = [dataSource collectionView:collectionView albumForItemAtIndexPath:indexPath];
-    [self renderCell:cell avatorImage:avaTorImage replyButtonImage:replyButtonImage album:album];
-    
-    // media collection view
-    cell.mediaCollectionView.albumIndexPath = indexPath;
-    cell.mediaCollectionView.dataSource = collectionView;
-    cell.mediaCollectionView.delegate = collectionView;
-    [cell.mediaCollectionView reloadData];
+    if ([collectionView isKindOfClass:[SKTwitterCollectionView class]]) {
+        SKTwitterCollectionView *albumCollectionView = (SKTwitterCollectionView *)collectionView;
+        cell = [self collectionView:albumCollectionView albumCellForItemAtIndexPath:indexPath];
+    } else if ([collectionView isKindOfClass:[SKTwitterMediaCollectionView class]]) {
+        SKTwitterMediaCollectionView *mediaCollectionView = (SKTwitterMediaCollectionView *)collectionView;
+        cell = [self collectionView:mediaCollectionView mediaCellForItemAtIndexPath:indexPath];
+    }
     
     return cell;
 }
@@ -96,9 +109,20 @@
 #pragma mark - Collection view delegate flow layout
 
 - (CGSize)collectionView:(SKTwitterCollectionView *)collectionView
-                  layout:(SKTwitterTableLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+                  layout:(SKTwitterTableLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [collectionViewLayout sizeForItemAtIndexPath:indexPath];
+    CGSize size = CGSizeZero;
+    
+    if ([collectionView isKindOfClass:[SKTwitterCollectionView class]]) {
+        SKTwitterTableLayout *albumCollectionLayout = (SKTwitterTableLayout *)collectionViewLayout;
+        size = [albumCollectionLayout sizeForItemAtIndexPath:indexPath];
+    } else if ([collectionView isKindOfClass:[SKTwitterMediaCollectionView class]]) {
+        SKTwitterMediaCollectionView *mediaCollectionView = (SKTwitterMediaCollectionView *)collectionView;
+        size = [self mediaDisplaySizeForMediaAtIndexPath:indexPath forAlbumAtIndexPath:mediaCollectionView.albumIndexPath];
+    }
+    
+    return size;
 }
 
 #pragma mark - Cell rendering
@@ -125,14 +149,94 @@
     }
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - SKTwitterCollectionView DataSource
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+// number of albums sections
+- (NSInteger)numberOfAlbumSectionsInCollectionView:(SKTwitterCollectionView *)collectionView
+{
+    NSAssert(NO, @"subclass is required to override this method");
+    return 0;
 }
-*/
+
+// number of albums per section
+- (NSInteger)collectionView:(SKTwitterCollectionView *)collectionView numberOfAlbumsInSection:(NSInteger)section
+{
+    NSAssert(NO, @"subclass is required to override this method");
+    return 0;
+}
+
+// avator image
+- (UIImage *)collectionView:(SKTwitterCollectionView *)collectionView avatorImageForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSAssert(NO, @"subclass is required to override this method");
+    return nil;
+}
+
+// reply button image
+- (UIImage *)collectionView:(SKTwitterCollectionView *)collectionView replyButtonImageForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSAssert(NO, @"subclass is required to override this method");
+    return nil;
+}
+
+// album data
+- (id<SKTwitterAlbum>)collectionView:(SKTwitterCollectionView *)collectionView albumForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSAssert(NO, @"subclass is required to override this method");
+    return nil;
+}
+
+- (UICollectionViewCell *)collectionView:(SKTwitterCollectionView *)collectionView
+             albumCellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *cellIdentifier = [SKTwitterCollectionViewCell cellReuseIdentifier];
+    SKTwitterCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    
+    id<SKTwitterCollectionViewDataSource> dataSource = collectionView.skTwitterCollectionViewDataSource;
+    
+    // text view
+    UIImage *avaTorImage = [dataSource collectionView:collectionView avatorImageForItemAtIndexPath:indexPath];
+    UIImage *replyButtonImage = [dataSource collectionView:collectionView replyButtonImageForItemAtIndexPath:indexPath];
+    id<SKTwitterAlbum> album = [dataSource collectionView:collectionView albumForItemAtIndexPath:indexPath];
+    [self renderCell:cell avatorImage:avaTorImage replyButtonImage:replyButtonImage album:album];
+    
+    // media collection view
+    cell.mediaCollectionView.albumIndexPath = indexPath;
+    cell.mediaCollectionView.dataSource = self;
+    cell.mediaCollectionView.delegate = self;
+    [cell.mediaCollectionView reloadData];
+    
+    return cell;
+}
+
+#pragma mark - Media collection
+
+// number of media sections
+- (NSInteger)numberOfMediaSectionsForAlbumAtIndexPath:(NSIndexPath *)albumIndexPath
+{
+    NSAssert(NO, @"subclass is required to override this method");
+    return 0;
+}
+
+// number of media items per section
+- (NSInteger)numberOfMediaInSection:(NSInteger)section forAlbumAtIndexPath:(NSIndexPath *)albumIndexPath
+{
+    NSAssert(NO, @"subclass is required to override this method");
+    return 0;
+}
+
+// media cell
+- (UICollectionViewCell *)collectionView:(SKTwitterMediaCollectionView *)collectionView mediaCellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSAssert(NO, @"subclass is required to override this method");
+    return nil;
+}
+
+// media cell size
+- (CGSize)mediaDisplaySizeForMediaAtIndexPath:(NSIndexPath *)mediaIndexPath forAlbumAtIndexPath:(NSIndexPath *)albumIndexPath
+{
+    NSAssert(NO, @"subclass is required to override this method");
+    return CGSizeZero;
+}
 
 @end

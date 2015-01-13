@@ -10,6 +10,28 @@
 
 @implementation SKTwitterMediaCollectionViewFlowLayout
 
+#pragma mark - life cycle
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self commonInitSKTwitterMediaCollectionViewFlowLayout];
+    }
+    return self;
+}
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    [self commonInitSKTwitterMediaCollectionViewFlowLayout];
+}
+
+- (void)commonInitSKTwitterMediaCollectionViewFlowLayout
+{
+    self.sectionInset = UIEdgeInsetsMake(4.0f, 8.0f, 4.0f, 8.0f);
+}
+
 #pragma mark - Collection view flow layout
 
 - (void)invalidateLayoutWithContext:(UICollectionViewLayoutInvalidationContext *)context

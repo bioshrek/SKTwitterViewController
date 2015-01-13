@@ -10,10 +10,12 @@
 
 #import "SKTwitterAlbumShareItem.h"
 #import "SKTwitterAlbumCommentItem.h"
+#import "SKTwitterAlbumMediaViewSquareStyle.h"
+#import "SKTwitterAlbumMediaViewRectangleStyle.h"
 
 @interface DemoViewController () <SKTwitterCollectionViewDataSource>
 
-@property (nonatomic, strong) id<SKTwitterAlbum> album;
+@property (nonatomic, strong) SKTwitterAlbumShareItem *album;
 
 @property (nonatomic, strong) NSMutableArray *commentList;
 
@@ -38,10 +40,16 @@
 
     self.collectionView.skTwitterCollectionViewDataSource = self;
     
+    // register media cell
+    
     // get sample data
     self.album = [self sampleAlbum];
     [self.commentList addObject:[self sampleComment]];
     [self.commentList addObject:[self sampleComment]];
+    
+    
+    
+    
 }
 
 - (id<SKTwitterAlbum>)sampleAlbum
@@ -161,12 +169,14 @@
 
 #pragma mark - SKTwitterCollectionView DataSource
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+// number of albums sections
+- (NSInteger)numberOfAlbumSectionsInCollectionView:(SKTwitterCollectionView *)collectionView
 {
     return 2;
 }
 
-- (NSInteger)collectionView:(SKTwitterCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+// number of albums per section
+- (NSInteger)collectionView:(SKTwitterCollectionView *)collectionView numberOfAlbumsInSection:(NSInteger)section
 {
     NSInteger numberOfItemsInSection = 0;
     
@@ -184,12 +194,13 @@
     return numberOfItemsInSection;
 }
 
+// avator image
 - (UIImage *)collectionView:(SKTwitterCollectionView *)collectionView avatorImageForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    // TODO:
     return [UIImage imageNamed:@"default_avator"];
 }
 
+// reply button image
 - (UIImage *)collectionView:(SKTwitterCollectionView *)collectionView replyButtonImageForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UIImage *replyButtonImage = nil;
@@ -208,6 +219,7 @@
     return replyButtonImage;
 }
 
+// album data
 - (id<SKTwitterAlbum>)collectionView:(SKTwitterCollectionView *)collectionView albumForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     id<SKTwitterAlbum> album = nil;
@@ -226,24 +238,116 @@
     return album;
 }
 
-// media icon for states
-- (UIImage *)collectionView:(SKTwitterCollectionView *)collectionView
-     mediaIconForMediaState:(SKMessageMediaState)mediaState
-         forItemAtIndexPath:(NSIndexPath *)itemIndexPath
-    forMediaItemAtIndexPath:(NSIndexPath *)mediaIndexPath
+// number of media sections
+- (NSInteger)numberOfMediaSectionsForAlbumAtIndexPath:(NSIndexPath *)albumIndexPath
 {
-    // TODO:
-    return nil;
+    NSInteger n = 0;
+    
+    switch (albumIndexPath.section) {
+        case 0: {
+            n = [self.album numberOfMediaSections];
+        } break;
+        case 1: {
+            n = 0;
+        } break;
+        default:
+            break;
+    }
+    
+    return n;
 }
 
-// media thumbnail
-- (UIImage *)collectionView:(SKTwitterCollectionView *)collectionView
-     thumbnailForMediaState:(SKMessageMediaState)mediaState
-         forItemAtIndexPath:(NSIndexPath *)itemIndexPath
-    forMediaItemAtIndexPath:(NSIndexPath *)mediaIndexPath
+// number of media items per section
+- (NSInteger)numberOfMediaInSection:(NSInteger)section forAlbumAtIndexPath:(NSIndexPath *)albumIndexPath
 {
-    // TODO:
-    return nil;
+    NSInteger n = 0;
+    
+    switch (albumIndexPath.section) {
+        case 0: {
+            n = [self.album numberOfMediaInSection:section];
+        } break;
+        case 1: {
+            n = 0;
+        } break;
+        default: break;
+    }
+    
+    return n;
+}
+
+// media cell
+- (UICollectionViewCell *)collectionView:(SKTwitterMediaCollectionView *)collectionView mediaCellForItemAtIndexPath:(NSIndexPath *)mediaIndexPath
+{
+    // register media prototype
+    [collectionView registerNib:[SKTwitterAlbumMediaViewSquareStyle nib]
+     forCellWithReuseIdentifier:[SKTwitterAlbumMediaViewSquareStyle reuseIdentifier]];
+    [collectionView registerNib:[SKTwitterAlbumMediaViewRectangleStyle nib]
+     forCellWithReuseIdentifier:[SKTwitterAlbumMediaViewRectangleStyle reuseIdentifier]];
+    
+    UICollectionViewCell *cell = nil;
+    NSIndexPath *albumIndexPath = collectionView.albumIndexPath;
+    switch (albumIndexPath.section) {
+        case 0: {
+            SKTwitterAlbumMediaDataItem *mediaItem = [self.album albumMediaForItemAtIndexPath:mediaIndexPath];
+            switch (mediaIndexPath.section) {
+                case 0: {
+                    cell = [collectionView dequeueReusableCellWithReuseIdentifier:[SKTwitterAlbumMediaViewSquareStyle reuseIdentifier] forIndexPath:mediaIndexPath];
+                } break;
+                case 1: {
+                    cell = [collectionView dequeueReusableCellWithReuseIdentifier:[SKTwitterAlbumMediaViewRectangleStyle reuseIdentifier] forIndexPath:mediaIndexPath];
+                } break;
+                default: break;
+            }
+            
+            NSAssert(cell, @"media cell can't be nil");
+            [self renderMediaCell:(SKTwitterAlbumMediaView *)cell withMediaItem:mediaItem];
+        } break;
+        default:
+            break;
+    }
+    
+    return cell;
+}
+
+- (void)renderMediaCell:(SKTwitterAlbumMediaView *)cell withMediaItem:(SKTwitterAlbumMediaDataItem *)mediaItem
+{
+    SKMessageMediaState mediaState = [mediaItem mediaState];
+    
+    if (SKMessageMediaStateUploading == mediaState ||
+        SKMessageMediaStateDownloading == mediaState) {
+        
+        [cell setProgressViewVisible:YES];
+        [cell updateProgress:[mediaItem mediaProgress].fractionCompleted];
+    } else {
+        [cell setProgressViewVisible:NO];
+    }
+    
+    [cell setMediaNameAttributedText:[mediaItem mediaNameAttributedText]];
+    [cell setMediaSizeAttributedText:[mediaItem mediaSizeAttributedText]];
+}
+
+// media cell size
+- (CGSize)mediaDisplaySizeForMediaAtIndexPath:(NSIndexPath *)mediaIndexPath forAlbumAtIndexPath:(NSIndexPath *)albumIndexPath
+{
+    CGSize size = CGSizeZero;
+
+    switch (albumIndexPath.section) {
+        case 0: {
+            switch (mediaIndexPath.section) {
+                case 0: {
+                    size = CGSizeMake(70, 70);
+                } break;
+                case 1: {
+                    size = CGSizeMake(250, 44);
+                } break;
+                default: break;
+            }
+        } break;
+        default:
+            break;
+    }
+    
+    return size;
 }
 
 @end

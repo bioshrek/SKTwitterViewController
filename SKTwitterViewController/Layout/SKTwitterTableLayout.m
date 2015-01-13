@@ -50,8 +50,8 @@
     if (!_mediaCollectionViewForCalculatingLayout) {
         SKTwitterMediaCollectionView *mediaCollectionView = [[SKTwitterMediaCollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:[[SKTwitterMediaCollectionViewFlowLayout alloc] init]];
         mediaCollectionView.backgroundColor = [UIColor lightGrayColor];
-        mediaCollectionView.dataSource = self.collectionView;  // very important
-        mediaCollectionView.delegate = self.collectionView;  // very important
+        mediaCollectionView.dataSource = self.collectionView.dataSource;  // very important
+        mediaCollectionView.delegate = self.collectionView.delegate;  // very important
         _mediaCollectionViewForCalculatingLayout = mediaCollectionView;
     }
     return _mediaCollectionViewForCalculatingLayout;
@@ -199,21 +199,23 @@
     layoutAttributes.textViewHeight = textViewHeight;
     
     // media collection view height
-    CGFloat mediaCollectionHolderViewHeight = [self mediaCollectionViewHeightForAlbum:album albumIndexPath:indexPath indent:indent];
+    CGFloat mediaCollectionHolderViewHeight = [self mediaCollectionViewHeightWithDatasource:dataSource albumIndexPath:indexPath indent:indent];
     layoutAttributes.mediaCollectionHolderViewHeight = mediaCollectionHolderViewHeight;
     
     layoutAttributes.shouldContentIndent = [album shouldContentIndent];
 }
 
 // item height
-- (CGFloat)heightForItemWithAlbum:(id<SKTwitterAlbum>)album indexPath:(NSIndexPath *)indexPath
+- (CGFloat)heightForItemWithDataSource:(id<SKTwitterCollectionViewDataSource>)dataSource indexPath:(NSIndexPath *)indexPath
 {
+    
+    id<SKTwitterAlbum> album = [dataSource collectionView:self.collectionView albumForItemAtIndexPath:indexPath];
     NSAttributedString *attributedText = [album attributedText];
     CGFloat indent = [album shouldContentIndent] ? kSKTwitterCollectionViewCellAvatorImageWidth + kSKTwitterCollectionViewCellMarginLeftSpacing : 0;
     CGFloat textViewHeight = [self textViewHeightForAttributedText:attributedText indent:indent];
     CGFloat textViewVerticalSpacing = textViewHeight ? kSKTwitterCollectionViewCellMarginTopSpacing : 0;
     
-    CGFloat mediaCollectionHolderViewHeight = [self mediaCollectionViewHeightForAlbum:album albumIndexPath:indexPath indent:indent];
+    CGFloat mediaCollectionHolderViewHeight = [self mediaCollectionViewHeightWithDatasource:dataSource albumIndexPath:indexPath indent:indent];
     CGFloat mediaCollectionViewVerticalSpacing = mediaCollectionHolderViewHeight ? kSKTwitterCollectionViewCellMarginTopSpacing : 0;
     
     CGFloat totalHeight =   kSKTwitterCollectionViewCellUserInfoHolderViewHeight + kSKTwitterCollectionViewCellMarginTopSpacing +
@@ -248,22 +250,23 @@
 }
 
 // media collection view height
-- (CGFloat)mediaCollectionViewHeightForAlbum:(id<SKTwitterAlbum>)album
+- (CGFloat)mediaCollectionViewHeightWithDatasource:(id<SKTwitterCollectionViewDataSource>)dataSource
                               albumIndexPath:(NSIndexPath *)indexPath
                                       indent:(CGFloat)indent
 {
     CGFloat height = 0.0f;
-    NSInteger numberOfMediaSections = [album numberOfMediaSections];
+    NSInteger numberOfMediaSections = [dataSource numberOfMediaSectionsForAlbumAtIndexPath:indexPath];
     if (numberOfMediaSections) {
         NSMutableArray *mediaDisplaySizeSectionList = [[NSMutableArray alloc] init];
         NSMutableArray *mediaDisplaySizeList = nil;
         for (NSUInteger section = 0; section < numberOfMediaSections; section++) {
             @autoreleasepool {
                 mediaDisplaySizeList = [[NSMutableArray alloc] init];
-                for (NSUInteger item = 0; item < [album numberOfMediaInSection:section]; item++) {
+                for (NSUInteger item = 0; item < [dataSource numberOfMediaInSection:section forAlbumAtIndexPath:indexPath]; item++) {
                     @autoreleasepool {
-                        id<SKTwitterAlbumMedia> media = [album albumMediaForItemAtIndexPath:[NSIndexPath indexPathForItem:item inSection:section]];
-                        [mediaDisplaySizeList addObject:[NSValue valueWithCGSize:[media mediaDisplaySize]]];
+                        CGSize mediaDisplaySize = [dataSource mediaDisplaySizeForMediaAtIndexPath:[NSIndexPath indexPathForItem:item inSection:section]
+                                                                              forAlbumAtIndexPath:indexPath];
+                        [mediaDisplaySizeList addObject:[NSValue valueWithCGSize:mediaDisplaySize]];
                     }
                 }
                 [mediaDisplaySizeSectionList addObject:mediaDisplaySizeList];
@@ -294,8 +297,7 @@
 {
     // text height
     id<SKTwitterCollectionViewDataSource> dataSource = self.collectionView.skTwitterCollectionViewDataSource;
-    id<SKTwitterAlbum> album = [dataSource collectionView:self.collectionView albumForItemAtIndexPath:indexPath];
-    CGFloat totalHeight = [self heightForItemWithAlbum:album indexPath:indexPath];
+    CGFloat totalHeight = [self heightForItemWithDataSource:dataSource indexPath:indexPath];
     
     return CGSizeMake(self.itemWidth, ceilf(totalHeight));
 }

@@ -11,10 +11,17 @@
 #import "SKTwitterAlbum.h"
 
 @class SKTwitterCollectionView;
+@class SKTwitterMediaCollectionView;
 
-@protocol SKTwitterCollectionViewDataSource <NSObject>
+@protocol SKTwitterCollectionViewDataSource <UICollectionViewDataSource>
 
 #pragma mark - Alum info
+
+// number of albums sections
+- (NSInteger)numberOfAlbumSectionsInCollectionView:(SKTwitterCollectionView *)collectionView;
+
+// number of albums per section
+- (NSInteger)collectionView:(SKTwitterCollectionView *)collectionView numberOfAlbumsInSection:(NSInteger)section;
 
 // avator image
 - (UIImage *)collectionView:(SKTwitterCollectionView *)collectionView avatorImageForItemAtIndexPath:(NSIndexPath *)indexPath;
@@ -22,21 +29,21 @@
 // reply button image
 - (UIImage *)collectionView:(SKTwitterCollectionView *)collectionView replyButtonImageForItemAtIndexPath:(NSIndexPath *)indexPath;
 
-// album
+// album data
 - (id<SKTwitterAlbum>)collectionView:(SKTwitterCollectionView *)collectionView albumForItemAtIndexPath:(NSIndexPath *)indexPath;
 
 #pragma mark - Media collection
 
-// media icon for states
-- (UIImage *)collectionView:(SKTwitterCollectionView *)collectionView
-     mediaIconForMediaState:(SKMessageMediaState)mediaState
-         forItemAtIndexPath:(NSIndexPath *)itemIndexPath
-    forMediaItemAtIndexPath:(NSIndexPath *)mediaIndexPath;
+// number of media sections
+- (NSInteger)numberOfMediaSectionsForAlbumAtIndexPath:(NSIndexPath *)albumIndexPath;
 
-// media thumbnail
-- (UIImage *)collectionView:(SKTwitterCollectionView *)collectionView
-     thumbnailForMediaState:(SKMessageMediaState)mediaState
-         forItemAtIndexPath:(NSIndexPath *)itemIndexPath
-    forMediaItemAtIndexPath:(NSIndexPath *)mediaIndexPath;
+// number of media items per section
+- (NSInteger)numberOfMediaInSection:(NSInteger)section forAlbumAtIndexPath:(NSIndexPath *)albumIndexPath;
+
+// media cell
+- (UICollectionViewCell *)collectionView:(SKTwitterMediaCollectionView *)collectionView mediaCellForItemAtIndexPath:(NSIndexPath *)indexPath;
+
+// media cell size
+- (CGSize)mediaDisplaySizeForMediaAtIndexPath:(NSIndexPath *)mediaIndexPath forAlbumAtIndexPath:(NSIndexPath *)albumIndexPath;
 
 @end

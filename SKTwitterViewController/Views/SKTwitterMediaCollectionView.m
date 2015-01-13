@@ -33,9 +33,7 @@
 - (id)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout
 {
     if (self = [super initWithFrame:frame collectionViewLayout:layout]) {
-        
-        [self registerNib:[SKTwitterMediaView nib] forCellWithReuseIdentifier:[SKTwitterMediaView reuseIdentifier]];
-        
+        [self commonInitSKTwitterMediaCollectionView];
     }
     return self;
 }
@@ -49,17 +47,7 @@
 
 - (void)commonInitSKTwitterMediaCollectionView
 {
-    [self registerNib:[SKTwitterMediaView nib] forCellWithReuseIdentifier:[SKTwitterMediaView reuseIdentifier]];
-}
-
-#pragma mark - getter
-
-- (NSMutableArray *)mediaCells
-{
-    if (!_mediaCells) {
-        _mediaCells = [[NSMutableArray alloc] init];
-    }
-    return _mediaCells;
+//    [self registerNib:[SKTwitterMediaView nib] forCellWithReuseIdentifier:[SKTwitterMediaView reuseIdentifier]];
 }
 
 #pragma mark - reuse

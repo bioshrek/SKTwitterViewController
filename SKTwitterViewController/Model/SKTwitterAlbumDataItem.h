@@ -27,4 +27,8 @@
                   attributedText:(NSAttributedString *)attributedText
                    mediaSections:(NSArray *)mediaSections;  // List<List<Media>>
 
+- (NSInteger)numberOfMediaSections;
+- (NSInteger)numberOfMediaInSection:(NSInteger)section;
+- (id<SKTwitterAlbumMedia>)albumMediaForItemAtIndexPath:(NSIndexPath *)indexPath;
+
 @end

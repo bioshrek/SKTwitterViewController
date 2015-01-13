@@ -19,6 +19,8 @@
 
 @property (readonly, nonatomic) CGFloat itemWidth;
 
+
+
 /**
  *  Computes and returns the size of the item specified by indexPath.
  *
