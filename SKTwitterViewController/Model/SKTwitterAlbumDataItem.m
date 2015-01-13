@@ -16,19 +16,19 @@
 
 @implementation SKTwitterAlbumDataItem
 
-- (instancetype)initWithUseName:(NSString *)username
-                           date:(NSDate *)date
-                     replyCount:(NSUInteger)replyCount
+- (instancetype)initWithUserName:(NSString *)username
+                        dateText:(NSString *)dateText
+                 replyButtonText:(NSString *)replyButtonText
                  attributedText:(NSAttributedString *)attributedText
                   mediaSections:(NSArray *)mediaSections
 {
     NSParameterAssert([username length]);
-    NSParameterAssert(nil != date);
+    NSParameterAssert([dateText length]);
     
     if (self = [super init]) {
         _userName = [username copy];
-        _date = [date copy];
-        _replyCount = replyCount;
+        _dateText = [dateText copy];
+        _replyButtonText = [replyButtonText copy];
         _attributedText = [attributedText copy];
         _mediaSections = mediaSections;
     }
@@ -61,6 +61,10 @@
     return media;
 }
 
+- (BOOL)shouldContentIndent
+{
+    return NO;
+}
 
 
 

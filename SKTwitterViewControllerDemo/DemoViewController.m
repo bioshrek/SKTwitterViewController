@@ -8,7 +8,8 @@
 
 #import "DemoViewController.h"
 
-#import "SKTwitterAlbumDataItem.h"
+#import "SKTwitterAlbumShareItem.h"
+#import "SKTwitterAlbumCommentItem.h"
 
 @interface DemoViewController () <SKTwitterCollectionViewDataSource>
 
@@ -128,11 +129,11 @@
                                                                                                                           attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12.0f]}]]
                             ];
     
-    return [[SKTwitterAlbumDataItem alloc] initWithUseName:@"shrek"
-                                                      date:[NSDate date]
-                                                replyCount:5
-                                            attributedText:[[NSAttributedString alloc] initWithString:@"hello, nice day!" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:16.0f]}]
-                                             mediaSections:@[
+    return [[SKTwitterAlbumShareItem alloc] initWithUserName:@"shrek"
+                                                    dateText:@"2015-1-13 2:59 P.M."
+                                             replyButtonText:@"10"
+                                              attributedText:[[NSAttributedString alloc] initWithString:@"hello, nice day!" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:16.0f]}]
+                                               mediaSections:@[
                                                              mediaItems1,
                                                              mediaItem2
                                                              ]];
@@ -140,11 +141,9 @@
 
 - (id<SKTwitterAlbum>)sampleComment
 {
-    return [[SKTwitterAlbumDataItem alloc] initWithUseName:@"shrek 2"
-                                                      date:[NSDate date]
-                                                replyCount:20
-                                            attributedText:[[NSAttributedString alloc] initWithString:@"This is an important point when it comes to the design phase of your adaptive layout. You should build a base layout first and then customize each specific size class based on the individual needs of that size class. Don’t treat each of the size classes as a completely separate design. Think of an adaptive layout as a hierarchy, in which you put all of the shared design into the parent and then make any necessary changes in the child size classes." attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:16.0f]}]
-                                             mediaSections:nil];
+    return [[SKTwitterAlbumCommentItem alloc] initWithUserName:@"shrek 2"
+                                                      dateText:@"2015-1-13 2:59 P.M."
+                                                attributedText:[[NSAttributedString alloc] initWithString:@"This is an important point when it comes to the design phase of your adaptive layout. You should build a base layout first and then customize each specific size class based on the individual needs of that size class. Don’t treat each of the size classes as a completely separate design. Think of an adaptive layout as a hierarchy, in which you put all of the shared design into the parent and then make any necessary changes in the child size classes." attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:16.0f]}]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -189,6 +188,24 @@
 {
     // TODO:
     return [UIImage imageNamed:@"default_avator"];
+}
+
+- (UIImage *)collectionView:(SKTwitterCollectionView *)collectionView replyButtonImageForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UIImage *replyButtonImage = nil;
+    
+    switch (indexPath.section) {
+        case 0: {
+            replyButtonImage = [UIImage imageNamed:@"reply"];
+        } break;
+        case 1: {
+            replyButtonImage = nil;
+        } break;
+        default:
+            break;
+    }
+    
+    return replyButtonImage;
 }
 
 - (id<SKTwitterAlbum>)collectionView:(SKTwitterCollectionView *)collectionView albumForItemAtIndexPath:(NSIndexPath *)indexPath

@@ -22,18 +22,6 @@
 
 @implementation SKTwitterViewController
 
-#pragma mark - getter
-
-- (NSDateFormatter *)dateFormatter
-{
-    if (!_dateFormatter) {
-        _dateFormatter = [[NSDateFormatter alloc] init];
-        [_dateFormatter setDateStyle:NSDateFormatterShortStyle];
-        [_dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-    }
-    return _dateFormatter;
-}
-
 #pragma mark - nib
 
 + (UINib *)nib
@@ -92,8 +80,9 @@
     
     // text view
     UIImage *avaTorImage = [dataSource collectionView:collectionView avatorImageForItemAtIndexPath:indexPath];
+    UIImage *replyButtonImage = [dataSource collectionView:collectionView replyButtonImageForItemAtIndexPath:indexPath];
     id<SKTwitterAlbum> album = [dataSource collectionView:collectionView albumForItemAtIndexPath:indexPath];
-    [self renderCell:cell avatorImage:avaTorImage album:album];
+    [self renderCell:cell avatorImage:avaTorImage replyButtonImage:replyButtonImage album:album];
     
     // media collection view
     cell.mediaCollectionView.albumIndexPath = indexPath;
@@ -117,6 +106,7 @@
 // render album info, text
 - (void)renderCell:(SKTwitterCollectionViewCell *)cell
        avatorImage:(UIImage *)avatorImage
+  replyButtonImage:(UIImage *)replyButtonImage
              album:(id<SKTwitterAlbum>)album
 {
     if (cell) {
@@ -124,10 +114,11 @@
         cell.nameLabel.text = [album userName];
         
         // date
-        cell.dateTimeLabel.text = [self.dateFormatter stringFromDate:[album date]];
+        cell.dateTimeLabel.text = [album dateText];
         
-        NSUInteger replyCount = [album replyCount];
-        [cell.replyButton setTitle:replyCount ? [NSString stringWithFormat:@"%d", (int)replyCount] : @""
+        [cell.replyButton setImage:replyButtonImage
+                          forState:UIControlStateNormal];
+        [cell.replyButton setTitle:[album replyButtonText]
                           forState:UIControlStateNormal];
         
         cell.textLabel.attributedText = [album attributedText];

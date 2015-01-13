@@ -10,6 +10,15 @@
 
 #import "SKTwitterMediaCollectionView.h"
 
+#pragma mark - layout constants
+
+extern CGFloat const kSKTwitterCollectionViewCellUserInfoHolderViewHeight;
+extern CGFloat const kSKTwitterCollectionViewCellMarginTopSpacing;
+extern CGFloat const kSKTwitterCollectionViewCellMarginLeftSpacing;
+extern CGFloat const kSKTwitterCollectionViewCellMarginBottomSpacing;
+extern CGFloat const kSKTwitterCollectionViewCellMarginRightSpacing;
+extern CGFloat const kSKTwitterCollectionViewCellAvatorImageWidth;
+
 @interface SKTwitterCollectionViewCell : UICollectionViewCell
 
 @property (weak, nonatomic, readonly) UIImageView *avatorImageView;

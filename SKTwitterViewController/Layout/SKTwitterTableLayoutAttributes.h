@@ -12,10 +12,8 @@
 
 @interface SKTwitterTableLayoutAttributes : UICollectionViewLayoutAttributes <NSCopying>
 
-@property (assign, nonatomic) CGFloat textViewVerticalSpacing;
 @property (assign, nonatomic) CGFloat textViewHeight;
-
-@property (assign, nonatomic) CGFloat mediaCollectionHolderViewVerticalSpacing;
 @property (assign, nonatomic) CGFloat mediaCollectionHolderViewHeight;
+@property (assign, nonatomic) BOOL shouldContentIndent;
 
 @end

@@ -12,11 +12,7 @@
 #import "SKTwitterTableLayoutInvalidationContext.h"
 #import "SKTwitterMediaCollectionView.h"
 #import "SKTwitterMediaCollectionViewFlowLayout.h"
-
-#pragma mark - layout constants
-
-CGFloat kUserInfoHolderViewHeight = 44.0f;
-CGFloat kVerticalSpacing = 8.0f;
+#import "SKTwitterCollectionViewCell.h"
 
 
 @interface SKTwitterTableLayout ()
@@ -195,36 +191,39 @@ CGFloat kVerticalSpacing = 8.0f;
     id<SKTwitterCollectionViewDataSource> dataSource = self.collectionView.skTwitterCollectionViewDataSource;
     id<SKTwitterAlbum> album = [dataSource collectionView:self.collectionView albumForItemAtIndexPath:indexPath];
     
+    CGFloat indent = [album shouldContentIndent] ? kSKTwitterCollectionViewCellAvatorImageWidth + kSKTwitterCollectionViewCellMarginLeftSpacing : 0;
+    
     // text height
     NSAttributedString *attributedText = [album attributedText];
-    CGFloat textViewHeight = [self textViewHeightForAttributedText:attributedText];
+    CGFloat textViewHeight = [self textViewHeightForAttributedText:attributedText indent:indent];
     layoutAttributes.textViewHeight = textViewHeight;
-    layoutAttributes.textViewVerticalSpacing = textViewHeight ? kVerticalSpacing : 0;
     
     // media collection view height
-    CGFloat mediaCollectionHolderViewHeight = [self mediaCollectionViewHeightForAlbum:album albumIndexPath:indexPath];
+    CGFloat mediaCollectionHolderViewHeight = [self mediaCollectionViewHeightForAlbum:album albumIndexPath:indexPath indent:indent];
     layoutAttributes.mediaCollectionHolderViewHeight = mediaCollectionHolderViewHeight;
-    layoutAttributes.mediaCollectionHolderViewVerticalSpacing = mediaCollectionHolderViewHeight ? kVerticalSpacing : 0;
+    
+    layoutAttributes.shouldContentIndent = [album shouldContentIndent];
 }
 
 // item height
 - (CGFloat)heightForItemWithAlbum:(id<SKTwitterAlbum>)album indexPath:(NSIndexPath *)indexPath
 {
     NSAttributedString *attributedText = [album attributedText];
-    CGFloat textViewHeight = [self textViewHeightForAttributedText:attributedText];
-    CGFloat textViewVerticalSpacing = textViewHeight ? kVerticalSpacing : 0;
+    CGFloat indent = [album shouldContentIndent] ? kSKTwitterCollectionViewCellAvatorImageWidth + kSKTwitterCollectionViewCellMarginLeftSpacing : 0;
+    CGFloat textViewHeight = [self textViewHeightForAttributedText:attributedText indent:indent];
+    CGFloat textViewVerticalSpacing = textViewHeight ? kSKTwitterCollectionViewCellMarginTopSpacing : 0;
     
-    CGFloat mediaCollectionHolderViewHeight = [self mediaCollectionViewHeightForAlbum:album albumIndexPath:indexPath];
-    CGFloat mediaCollectionViewVerticalSpacing = mediaCollectionHolderViewHeight ? kVerticalSpacing : 0;
+    CGFloat mediaCollectionHolderViewHeight = [self mediaCollectionViewHeightForAlbum:album albumIndexPath:indexPath indent:indent];
+    CGFloat mediaCollectionViewVerticalSpacing = mediaCollectionHolderViewHeight ? kSKTwitterCollectionViewCellMarginTopSpacing : 0;
     
-    CGFloat totalHeight =   kUserInfoHolderViewHeight + kVerticalSpacing +
+    CGFloat totalHeight =   kSKTwitterCollectionViewCellUserInfoHolderViewHeight + kSKTwitterCollectionViewCellMarginTopSpacing +
                             textViewHeight + textViewVerticalSpacing +
                             mediaCollectionHolderViewHeight + mediaCollectionViewVerticalSpacing;
     return totalHeight;
 }
 
 // text view height
-- (CGFloat)textViewHeightForAttributedText:(NSAttributedString *)attributedText
+- (CGFloat)textViewHeightForAttributedText:(NSAttributedString *)attributedText indent:(CGFloat)indent
 {
     CGFloat height = 0.0f;
     
@@ -233,7 +232,7 @@ CGFloat kVerticalSpacing = 8.0f;
         NSNumber *heightValue = [self.textViewHeightCache objectForKey:cacheKey];
         
         if (!heightValue) {
-            CGFloat maxWidth = self.itemWidth;
+            CGFloat maxWidth = self.itemWidth - kSKTwitterCollectionViewCellMarginLeftSpacing - kSKTwitterCollectionViewCellMarginRightSpacing - indent;
             CGRect rect = [attributedText boundingRectWithSize:CGSizeMake(maxWidth, CGFLOAT_MAX)
                                                        options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
                                                        context:nil];
@@ -250,7 +249,8 @@ CGFloat kVerticalSpacing = 8.0f;
 
 // media collection view height
 - (CGFloat)mediaCollectionViewHeightForAlbum:(id<SKTwitterAlbum>)album
-           albumIndexPath:(NSIndexPath *)indexPath
+                              albumIndexPath:(NSIndexPath *)indexPath
+                                      indent:(CGFloat)indent
 {
     CGFloat height = 0.0f;
     NSInteger numberOfMediaSections = [album numberOfMediaSections];
@@ -271,7 +271,7 @@ CGFloat kVerticalSpacing = 8.0f;
         }
         NSNumber *heightValue = [self.mediaCollectionHeightCache objectForKey:mediaDisplaySizeSectionList];
         if (!heightValue) {  // calculate
-            CGFloat maxWidth = self.itemWidth;
+            CGFloat maxWidth = self.itemWidth - kSKTwitterCollectionViewCellMarginLeftSpacing - kSKTwitterCollectionViewCellMarginRightSpacing - indent;
             self.mediaCollectionViewForCalculatingLayout.albumIndexPath = indexPath;
             self.mediaCollectionViewForCalculatingLayout.bounds = CGRectMake(0, 0, maxWidth, 200);  // important: content size calculation needs max width
             UICollectionViewLayout *layout = self.mediaCollectionViewForCalculatingLayout.collectionViewLayout;

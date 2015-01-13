@@ -13,14 +13,18 @@
 @protocol SKTwitterAlbum <NSObject>
 
 - (NSString *)userName;
-- (NSDate *)date;
-- (NSUInteger)replyCount;
+
+- (NSString *)dateText;
+
+- (NSString *)replyButtonText;
 
 - (NSAttributedString *)attributedText;
 
 // number of media items
 
 - (NSInteger)numberOfMediaSections;
+
+- (BOOL)shouldContentIndent;
 
 @optional
 

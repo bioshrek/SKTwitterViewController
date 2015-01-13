@@ -105,15 +105,20 @@
             <connections>
                 <outlet property="UserInfoHolderViewHeightConstraint" destination="lAK-SK-nFm" id="N2v-IG-gGL"/>
                 <outlet property="avatorImageView" destination="YhB-gn-hmg" id="FMC-LC-r7g"/>
+                <outlet property="avatorImageWidthConstraint" destination="Xd2-f0-nMj" id="qcG-ZS-ndE"/>
                 <outlet property="dateTimeLabel" destination="sWE-pB-SLt" id="U3E-lK-mqs"/>
+                <outlet property="imageView_NameLabel_HorizontalSpacingConstraint" destination="HCc-hw-EI4" id="FK6-FO-ak7"/>
                 <outlet property="mediaCollectionView" destination="f9b-3F-Jfe" id="u5q-47-mJ5"/>
                 <outlet property="mediaCollectionViewHeightConstraint" destination="ktZ-ob-kpH" id="Ry4-cm-pTU"/>
+                <outlet property="mediaCollectionViewMarginLeftConstraint" destination="UOb-oa-g9R" id="KAS-Xb-rW1"/>
                 <outlet property="mediaCollectionViewVerticalSpacing" destination="4UU-9h-jbS" id="iKg-1n-mdM"/>
                 <outlet property="nameLabel" destination="1t4-3H-MCA" id="EpK-VP-ZEN"/>
                 <outlet property="replyButton" destination="jXF-0x-h9W" id="TtO-nu-C2U"/>
                 <outlet property="textLabel" destination="eZx-PR-dsB" id="ELx-ex-527"/>
                 <outlet property="textLabelHeightConstraint" destination="s1S-A9-7y3" id="cAG-YY-08n"/>
+                <outlet property="textLabelMarginLeftConstraint" destination="cmo-OA-pRA" id="6X2-L2-uRZ"/>
                 <outlet property="textLabelVerticalSpacing" destination="5xu-yC-gNG" id="BeS-lD-bu0"/>
+                <outlet property="userInfoHolderViewMarginLeftConstraint" destination="hQ4-XB-esW" id="Xjr-gR-Ahd"/>
             </connections>
         </collectionViewCell>
     </objects>

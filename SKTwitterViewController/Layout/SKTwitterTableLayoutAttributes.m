@@ -19,11 +19,9 @@
     SKTwitterTableLayoutAttributes *copy = [super copyWithZone:zone];
     
     if (copy.representedElementCategory == UICollectionElementCategoryCell) {
-        copy.textViewVerticalSpacing = self.textViewVerticalSpacing;
         copy.textViewHeight = self.textViewHeight;
-        
         copy.mediaCollectionHolderViewHeight = self.mediaCollectionHolderViewHeight;
-        copy.mediaCollectionHolderViewVerticalSpacing = self.mediaCollectionHolderViewVerticalSpacing;
+        copy.shouldContentIndent = self.shouldContentIndent;
     }
     
     return copy;
@@ -42,10 +40,9 @@
     
     if (self.representedElementCategory == UICollectionElementCategoryCell) {
         SKTwitterTableLayoutAttributes *otherAttributes = (SKTwitterTableLayoutAttributes *)other;
-        if (otherAttributes.textViewVerticalSpacing != self.textViewVerticalSpacing ||
-            otherAttributes.textViewHeight != self.textViewHeight ||
+        if (otherAttributes.textViewHeight != self.textViewHeight ||
             otherAttributes.mediaCollectionHolderViewHeight != self.mediaCollectionHolderViewHeight ||
-            otherAttributes.mediaCollectionHolderViewVerticalSpacing != self.mediaCollectionHolderViewVerticalSpacing) {
+            otherAttributes.shouldContentIndent != self.shouldContentIndent) {
             return NO;
         }
     }

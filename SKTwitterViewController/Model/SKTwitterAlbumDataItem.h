@@ -15,16 +15,16 @@
 
 @property (nonatomic, copy, readonly) NSString *userName;
 
-@property (nonatomic, copy, readonly) NSDate *date;
+@property (nonatomic, copy, readonly) NSString *dateText;
 
-@property (nonatomic, assign, readonly) NSUInteger replyCount;
+@property (nonatomic, copy, readonly) NSString *replyButtonText;
 
 @property (nonatomic, copy, readonly) NSAttributedString *attributedText;
 
-- (instancetype)initWithUseName:(NSString *)username
-                           date:(NSDate *)date
-                     replyCount:(NSUInteger)replyCount
-                 attributedText:(NSAttributedString *)attributedText
-                  mediaSections:(NSArray *)mediaSections;  // List<List<Media>>
+- (instancetype)initWithUserName:(NSString *)username
+                        dateText:(NSString *)dateText
+                 replyButtonText:(NSString *)replyButtonText
+                  attributedText:(NSAttributedString *)attributedText
+                   mediaSections:(NSArray *)mediaSections;  // List<List<Media>>
 
 @end
