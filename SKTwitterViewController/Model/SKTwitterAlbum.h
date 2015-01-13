@@ -19,10 +19,13 @@
 - (NSAttributedString *)attributedText;
 
 // number of media items
-- (NSInteger)numberOfMediaItems;
+
+- (NSInteger)numberOfMediaSections;
 
 @optional
 
-- (id<SKTwitterAlbumMedia>)albumMediaForItemAtIndex:(NSInteger)index;
+- (NSInteger)numberOfMediaInSection:(NSInteger)section;
+
+- (id<SKTwitterAlbumMedia>)albumMediaForItemAtIndexPath:(NSIndexPath *)indexPath;
 
 @end

@@ -79,7 +79,7 @@
 
 - (void)configureMediaCellLayoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes
 {
-    NSLog(@"media item %d, frame: %@", (int)layoutAttributes.indexPath.item, NSStringFromCGRect(layoutAttributes.frame));
+//    NSLog(@"media item %d, frame: %@", (int)layoutAttributes.indexPath.item, NSStringFromCGRect(layoutAttributes.frame));
 }
 
 @end

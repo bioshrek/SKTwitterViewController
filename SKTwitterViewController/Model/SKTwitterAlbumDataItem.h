@@ -25,6 +25,6 @@
                            date:(NSDate *)date
                      replyCount:(NSUInteger)replyCount
                  attributedText:(NSAttributedString *)attributedText
-                     mediaItems:(NSArray *)mediaItems;
+                  mediaSections:(NSArray *)mediaSections;  // List<List<Media>>
 
 @end

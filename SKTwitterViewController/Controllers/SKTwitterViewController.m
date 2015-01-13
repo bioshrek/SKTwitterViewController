@@ -73,12 +73,14 @@
 
 - (NSInteger)collectionView:(SKTwitterCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [collectionView.skTwitterCollectionViewDataSource numberOfItemsInCollectionView:collectionView];
+    NSAssert(NO, @"subclass is required to override this method");
+    return 0;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 1;
+    NSAssert(NO, @"subclass is required to override this method");
+    return 0;
 }
 
 - (UICollectionViewCell *)collectionView:(SKTwitterCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -87,11 +89,10 @@
     SKTwitterCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     
     id<SKTwitterCollectionViewDataSource> dataSource = collectionView.skTwitterCollectionViewDataSource;
-    NSInteger row = indexPath.item;
     
     // text view
-    UIImage *avaTorImage = [dataSource collectionView:collectionView avatorImageForItemAtRow:row];
-    id<SKTwitterAlbum> album = [dataSource collectionView:collectionView albumForItemAtRow:row];
+    UIImage *avaTorImage = [dataSource collectionView:collectionView avatorImageForItemAtIndexPath:indexPath];
+    id<SKTwitterAlbum> album = [dataSource collectionView:collectionView albumForItemAtIndexPath:indexPath];
     [self renderCell:cell avatorImage:avaTorImage album:album];
     
     // media collection view

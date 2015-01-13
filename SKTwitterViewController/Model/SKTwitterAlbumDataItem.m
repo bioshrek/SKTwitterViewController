@@ -10,7 +10,7 @@
 
 @interface SKTwitterAlbumDataItem ()
 
-@property (nonatomic, strong) NSArray *mediaItems;
+@property (nonatomic, strong) NSArray *mediaSections;  // List<List<Media>>
 
 @end
 
@@ -20,7 +20,7 @@
                            date:(NSDate *)date
                      replyCount:(NSUInteger)replyCount
                  attributedText:(NSAttributedString *)attributedText
-                     mediaItems:(NSArray *)mediaItems
+                  mediaSections:(NSArray *)mediaSections
 {
     NSParameterAssert([username length]);
     NSParameterAssert(nil != date);
@@ -30,23 +30,33 @@
         _date = [date copy];
         _replyCount = replyCount;
         _attributedText = [attributedText copy];
-        _mediaItems = mediaItems;
+        _mediaSections = mediaSections;
     }
     return self;
 }
 
 #pragma mark - SKTwitterAlbum
 
-- (NSInteger)numberOfMediaItems
+- (NSInteger)numberOfMediaSections
 {
-    return [self.mediaItems count];
+    return [self.mediaSections count];
 }
 
-- (id<SKTwitterAlbumMedia>)albumMediaForItemAtIndex:(NSInteger)index
+- (NSInteger)numberOfMediaInSection:(NSInteger)section
+{
+    return [[self mediaSectionAtIndex:section] count];
+}
+
+- (NSArray *)mediaSectionAtIndex:(NSInteger)index
+{
+    return [self.mediaSections objectAtIndex:index];
+}
+
+- (id<SKTwitterAlbumMedia>)albumMediaForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     id<SKTwitterAlbumMedia> media = nil;
     
-    media = [self.mediaItems objectAtIndex:index];
+    media = [[self mediaSectionAtIndex:indexPath.section] objectAtIndex:indexPath.item];
     
     return media;
 }

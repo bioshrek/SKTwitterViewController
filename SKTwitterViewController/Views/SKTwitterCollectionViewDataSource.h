@@ -14,31 +14,26 @@
 
 @protocol SKTwitterCollectionViewDataSource <NSObject>
 
-#pragma mark - Collection info
-
-- (NSInteger)numberOfItemsInCollectionView:(SKTwitterCollectionView *)collectionView;
-
-
 #pragma mark - Alum info
 
 // avator image
-- (UIImage *)collectionView:(SKTwitterCollectionView *)collectionView avatorImageForItemAtRow:(NSUInteger)row;
+- (UIImage *)collectionView:(SKTwitterCollectionView *)collectionView avatorImageForItemAtIndexPath:(NSIndexPath *)indexPath;
 
 // album
-- (id<SKTwitterAlbum>)collectionView:(SKTwitterCollectionView *)collectionView albumForItemAtRow:(NSUInteger)row;
+- (id<SKTwitterAlbum>)collectionView:(SKTwitterCollectionView *)collectionView albumForItemAtIndexPath:(NSIndexPath *)indexPath;
 
 #pragma mark - Media collection
 
 // media icon for states
 - (UIImage *)collectionView:(SKTwitterCollectionView *)collectionView
      mediaIconForMediaState:(SKMessageMediaState)mediaState
-               forItemAtRow:(NSUInteger)row
-        forMediaItemAtIndex:(NSUInteger)index;
+         forItemAtIndexPath:(NSIndexPath *)itemIndexPath
+    forMediaItemAtIndexPath:(NSIndexPath *)mediaIndexPath;
 
 // media thumbnail
 - (UIImage *)collectionView:(SKTwitterCollectionView *)collectionView
      thumbnailForMediaState:(SKMessageMediaState)mediaState
-               forItemAtRow:(NSUInteger)row
-        forMediaItemAtIndex:(NSUInteger)index;
+         forItemAtIndexPath:(NSIndexPath *)itemIndexPath
+    forMediaItemAtIndexPath:(NSIndexPath *)mediaIndexPath;
 
 @end

@@ -193,7 +193,7 @@ CGFloat kVerticalSpacing = 8.0f;
     NSIndexPath *indexPath = layoutAttributes.indexPath;
     
     id<SKTwitterCollectionViewDataSource> dataSource = self.collectionView.skTwitterCollectionViewDataSource;
-    id<SKTwitterAlbum> album = [dataSource collectionView:self.collectionView albumForItemAtRow:indexPath.item];
+    id<SKTwitterAlbum> album = [dataSource collectionView:self.collectionView albumForItemAtIndexPath:indexPath];
     
     // text height
     NSAttributedString *attributedText = [album attributedText];
@@ -253,16 +253,23 @@ CGFloat kVerticalSpacing = 8.0f;
            albumIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat height = 0.0f;
-    NSInteger numberOfMediaItems = [album numberOfMediaItems];
-    if (numberOfMediaItems) {
-        NSMutableArray *mediaDisplaySizeList = [[NSMutableArray alloc] init];
-        for (NSUInteger i = 0; i < numberOfMediaItems; i++) {
+    NSInteger numberOfMediaSections = [album numberOfMediaSections];
+    if (numberOfMediaSections) {
+        NSMutableArray *mediaDisplaySizeSectionList = [[NSMutableArray alloc] init];
+        NSMutableArray *mediaDisplaySizeList = nil;
+        for (NSUInteger section = 0; section < numberOfMediaSections; section++) {
             @autoreleasepool {
-                id<SKTwitterAlbumMedia> media = [album albumMediaForItemAtIndex:i];
-                [mediaDisplaySizeList addObject:[NSValue valueWithCGSize:[media mediaDisplaySize]]];
+                mediaDisplaySizeList = [[NSMutableArray alloc] init];
+                for (NSUInteger item = 0; item < [album numberOfMediaInSection:section]; item++) {
+                    @autoreleasepool {
+                        id<SKTwitterAlbumMedia> media = [album albumMediaForItemAtIndexPath:[NSIndexPath indexPathForItem:item inSection:section]];
+                        [mediaDisplaySizeList addObject:[NSValue valueWithCGSize:[media mediaDisplaySize]]];
+                    }
+                }
+                [mediaDisplaySizeSectionList addObject:mediaDisplaySizeList];
             }
         }
-        NSNumber *heightValue = [self.mediaCollectionHeightCache objectForKey:mediaDisplaySizeList];
+        NSNumber *heightValue = [self.mediaCollectionHeightCache objectForKey:mediaDisplaySizeSectionList];
         if (!heightValue) {  // calculate
             CGFloat maxWidth = self.itemWidth;
             self.mediaCollectionViewForCalculatingLayout.albumIndexPath = indexPath;
@@ -274,7 +281,7 @@ CGFloat kVerticalSpacing = 8.0f;
             height = contentSize.height;
             
             heightValue = [NSNumber numberWithFloat:height];
-            [self.mediaCollectionHeightCache setObject:heightValue forKey:mediaDisplaySizeList];
+            [self.mediaCollectionHeightCache setObject:heightValue forKey:mediaDisplaySizeSectionList];
         } else {  // cached
             height = [heightValue floatValue];
         }
@@ -285,11 +292,9 @@ CGFloat kVerticalSpacing = 8.0f;
 
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSInteger row = indexPath.item;
-    
     // text height
     id<SKTwitterCollectionViewDataSource> dataSource = self.collectionView.skTwitterCollectionViewDataSource;
-    id<SKTwitterAlbum> album = [dataSource collectionView:self.collectionView albumForItemAtRow:row];
+    id<SKTwitterAlbum> album = [dataSource collectionView:self.collectionView albumForItemAtIndexPath:indexPath];
     CGFloat totalHeight = [self heightForItemWithAlbum:album indexPath:indexPath];
     
     return CGSizeMake(self.itemWidth, ceilf(totalHeight));

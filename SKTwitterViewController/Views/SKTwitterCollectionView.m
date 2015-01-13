@@ -52,15 +52,17 @@ forCellWithReuseIdentifier:[SKTwitterCollectionViewCell cellReuseIdentifier]];
 
 - (NSInteger)collectionView:(SKTwitterMediaCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    id<SKTwitterAlbum> album = [self.skTwitterCollectionViewDataSource collectionView:self albumForItemAtRow:collectionView.albumIndexPath.item];
+    id<SKTwitterAlbum> album = [self.skTwitterCollectionViewDataSource collectionView:self albumForItemAtIndexPath:collectionView.albumIndexPath];
     NSAssert(album, @"album should not be nil");
     
-    return [album numberOfMediaItems];
+    return [album numberOfMediaInSection:section];
 }
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+- (NSInteger)numberOfSectionsInCollectionView:(SKTwitterMediaCollectionView *)collectionView
 {
-    return 1;
+    id<SKTwitterAlbum> album = [self.skTwitterCollectionViewDataSource collectionView:self albumForItemAtIndexPath:collectionView.albumIndexPath];
+    
+    return [album numberOfMediaSections];
 }
 
 - (UICollectionViewCell *)collectionView:(SKTwitterMediaCollectionView *)collectionView
@@ -71,15 +73,13 @@ forCellWithReuseIdentifier:[SKTwitterCollectionViewCell cellReuseIdentifier]];
     NSAssert(cell, @"media cell can't be nil");
     
     id<SKTwitterCollectionViewDataSource> dataSource = self.skTwitterCollectionViewDataSource;
-    NSInteger row = collectionView.albumIndexPath.item;
-    id<SKTwitterAlbum> album = [dataSource collectionView:self albumForItemAtRow:row];
+    id<SKTwitterAlbum> album = [dataSource collectionView:self albumForItemAtIndexPath:collectionView.albumIndexPath];
     NSAssert(album, @"album should not be nil");
-    NSInteger mediaIndex = indexPath.item;
-    id<SKTwitterAlbumMedia> media = [album albumMediaForItemAtIndex:mediaIndex];
+    id<SKTwitterAlbumMedia> media = [album albumMediaForItemAtIndexPath:indexPath];
     
     // media state
     SKMessageMediaState mediaState = [media mediaState];
-    [self renderMediaView:cell media:media row:row mediaIndex:mediaIndex];
+    [self renderMediaView:cell media:media itemIndexPath:collectionView.albumIndexPath mediaIndexPath:indexPath];
     
     // media progress
     if (SKMessageMediaStateUploading == mediaState ||
@@ -88,10 +88,15 @@ forCellWithReuseIdentifier:[SKTwitterCollectionViewCell cellReuseIdentifier]];
     }
     
     // media thumbnail
-    UIImage *thumbnail = [dataSource collectionView:self thumbnailForMediaState:mediaState forItemAtRow:row forMediaItemAtIndex:mediaIndex];
+    UIImage *thumbnail = [dataSource collectionView:self thumbnailForMediaState:mediaState forItemAtIndexPath:collectionView.albumIndexPath forMediaItemAtIndexPath:indexPath];
     cell.backgroundImageView.image = thumbnail;
     
     return cell;
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(4, 8, 4, 8);
 }
 
 - (CGSize)collectionView:(SKTwitterMediaCollectionView *)collectionView
@@ -99,11 +104,9 @@ forCellWithReuseIdentifier:[SKTwitterCollectionViewCell cellReuseIdentifier]];
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     id<SKTwitterCollectionViewDataSource> dataSource = self.skTwitterCollectionViewDataSource;
-    NSInteger row = collectionView.albumIndexPath.item;
-    id<SKTwitterAlbum> album = [dataSource collectionView:self albumForItemAtRow:row];
+    id<SKTwitterAlbum> album = [dataSource collectionView:self albumForItemAtIndexPath:collectionView.albumIndexPath];
     NSAssert(album, @"album should not be nil");
-    NSInteger mediaIndex = indexPath.item;
-    id<SKTwitterAlbumMedia> media = [album albumMediaForItemAtIndex:mediaIndex];
+    id<SKTwitterAlbumMedia> media = [album albumMediaForItemAtIndexPath:indexPath];
     
     return [media mediaDisplaySize];
 }
@@ -112,8 +115,8 @@ forCellWithReuseIdentifier:[SKTwitterCollectionViewCell cellReuseIdentifier]];
 
 - (void)renderMediaView:(SKTwitterMediaView *)skMediaView
                   media:(id<SKTwitterAlbumMedia>)media
-                    row:(NSInteger)row
-             mediaIndex:(NSInteger)mediaIndex
+          itemIndexPath:(NSIndexPath *)itemIndexPath
+         mediaIndexPath:(NSIndexPath *)mediaIndexPath
 {
     if (nil == skMediaView) return;
     
@@ -152,8 +155,8 @@ forCellWithReuseIdentifier:[SKTwitterCollectionViewCell cellReuseIdentifier]];
     } else {
         mediaIconForState = [self.skTwitterCollectionViewDataSource collectionView:self
                                                             mediaIconForMediaState:mediaState
-                                                                      forItemAtRow:row
-                                                               forMediaItemAtIndex:mediaIndex];
+                                                                forItemAtIndexPath:itemIndexPath
+                                                           forMediaItemAtIndexPath:mediaIndexPath];
         
         if (mediaIconForState || mediaDescriptionForState) {
             [skMediaView.mediaIconButton setAttributedTitle:mediaDescriptionForState forState:UIControlStateNormal];
