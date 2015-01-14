@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SKTwitterViewController/Views/SKTwitterCollectionViewCell.m"
-            timestampString = "442824205.91153"
+            timestampString = "442899788.673374"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110">
+            startingLineNumber = "130"
+            endingLineNumber = "130">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -88,11 +88,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SKTwitterViewController/Controllers/SKTwitterViewController.m"
-            timestampString = "442838938.151009"
+            timestampString = "442899788.673374"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
             landmarkName = "-renderCell:avatorImage:replyButtonImage:album:"
             landmarkType = "5">
          </BreakpointContent>
@@ -104,11 +104,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SKTwitterViewController/Controllers/SKTwitterViewController.m"
-            timestampString = "442838938.151009"
+            timestampString = "442899788.673374"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
             landmarkName = "-renderCell:avatorImage:replyButtonImage:album:"
             landmarkType = "5">
          </BreakpointContent>
@@ -136,11 +136,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SKTwitterViewController/Controllers/SKTwitterViewController.m"
-            timestampString = "442838938.151009"
+            timestampString = "442899788.673374"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
             landmarkName = "-renderCell:avatorImage:replyButtonImage:album:"
             landmarkType = "5">
          </BreakpointContent>

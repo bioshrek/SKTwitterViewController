@@ -23,7 +23,7 @@ CGFloat const kSKTwitterCollectionViewCellAvatorImageWidth = 44.0f;
 
 @interface SKTwitterCollectionViewCell ()
 
-@property (weak, nonatomic) IBOutlet UIImageView *avatorImageView;
+@property (weak, nonatomic) IBOutlet UIButton *avatorButton;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dateTimeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *replyButton;
@@ -64,17 +64,26 @@ CGFloat const kSKTwitterCollectionViewCellAvatorImageWidth = 44.0f;
     // TODO:
 }
 
-#pragma mark - Collection view cell
+- (void)setAlbumIndexPath:(NSIndexPath *)albumIndexPath
+{
+    _albumIndexPath = [albumIndexPath copy];
+    
+    self.mediaCollectionView.albumIndexPath = albumIndexPath;
+}
+
+#pragma mark - Collection view cell override
 
 - (void)prepareForReuse
 {
     [super prepareForReuse];
     
-    self.avatorImageView.image = nil;
+    [self.avatorButton setImage:nil forState:UIControlStateNormal];
     self.nameLabel.text = @"";
     self.dateTimeLabel.text = @"";
     [self.replyButton setTitle:@"" forState:UIControlStateNormal];
     [self.replyButton setImage:nil forState:UIControlStateNormal];
+    self.albumIndexPath = nil;
+    self.delegate = nil;
     
     self.textLabel.text = @"";
     
@@ -103,4 +112,15 @@ CGFloat const kSKTwitterCollectionViewCellAvatorImageWidth = 44.0f;
     self.mediaCollectionViewVerticalSpacing.constant = customAttributes.mediaCollectionHolderViewHeight ? kSKTwitterCollectionViewCellMarginTopSpacing : 0;
     self.mediaCollectionViewMarginLeftConstraint.constant = marginLeft;
 }
+
+#pragma mark - actions
+
+- (IBAction)avatorButtonTouched:(id)sender {
+    [self.delegate didSelectAvatorButtonInCollectionViewCell:self];
+}
+
+- (IBAction)replyButtonTouched:(id)sender {
+    [self.delegate didSelectReplyButtonInCollectionViewCell:self];
+}
+
 @end

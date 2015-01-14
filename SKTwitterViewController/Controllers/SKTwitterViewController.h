@@ -11,8 +11,9 @@
 #import "SKTwitterCollectionView.h"
 
 #import "SKTwitterCollectionViewDataSource.h"
+#import "SKTwitterCollectionViewDelegate.h"
 
-@interface SKTwitterViewController : UIViewController <SKTwitterCollectionViewDataSource, UICollectionViewDelegate>
+@interface SKTwitterViewController : UIViewController <SKTwitterCollectionViewDataSource, SKTwitterCollectionViewDelegate>
 
 @property (nonatomic, weak, readonly) SKTwitterCollectionView *collectionView;
 

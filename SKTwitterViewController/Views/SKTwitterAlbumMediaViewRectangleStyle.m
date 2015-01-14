@@ -10,8 +10,9 @@
 
 @interface SKTwitterAlbumMediaViewRectangleStyle ()
 
-@property (weak, nonatomic) IBOutlet UILabel *title;
-@property (weak, nonatomic) IBOutlet UILabel *subtitle;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dateTimeLabel;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 
 @end
@@ -30,12 +31,12 @@
 
 - (void)setMediaNameAttributedText:(NSAttributedString *)nameAttributedText
 {
-    self.title.attributedText = nameAttributedText;
+    self.titleLabel.attributedText = nameAttributedText;
 }
 
 - (void)setMediaSizeAttributedText:(NSAttributedString *)sizeAttributedText
 {
-    self.subtitle.attributedText = sizeAttributedText;
+    self.subtitleLabel.attributedText = sizeAttributedText;
 }
 
 @end

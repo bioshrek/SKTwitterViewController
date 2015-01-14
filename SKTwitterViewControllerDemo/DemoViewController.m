@@ -335,10 +335,10 @@
         case 0: {
             switch (mediaIndexPath.section) {
                 case 0: {
-                    size = CGSizeMake(70, 70);
+                    size = CGSizeMake(74, 74);
                 } break;
                 case 1: {
-                    size = CGSizeMake(250, 44);
+                    size = CGSizeMake(260, 76);
                 } break;
                 default: break;
             }
@@ -348,6 +348,32 @@
     }
     
     return size;
+}
+
+#pragma mark - SKTwitterCollectionView Delegate
+
+- (void)collectionView:(SKTwitterCollectionView *)collectionView didSelectAlbumAtIndexPath:(NSIndexPath *)indexPath
+{
+    // TODO: subclass override
+    NSLog(@"did select album at {%d, %d}", (int)indexPath.section, (int)indexPath.item);
+}
+
+- (void)collectionView:(SKTwitterMediaCollectionView *)collectionView didSelectMediaAtIndexPath:(NSIndexPath *)indexPath
+{
+    // TODO: subclass override
+    NSLog(@"did select media at {%d, %d}", (int)indexPath.section, (int)indexPath.item);
+}
+
+- (void)collectionView:(SKTwitterCollectionView *)collectionView didSelectAvatorButtonForAlbumAtIndexPath:(NSIndexPath *)indexPath
+{
+    // TODO: subclass override
+    NSLog(@"did select avator button at {%d, %d}", (int)indexPath.section, (int)indexPath.item);
+}
+
+- (void)collectionView:(SKTwitterCollectionView *)collectionView didSelectReplyButtonForAlbumAtIndexPath:(NSIndexPath *)indexPath
+{
+    // TODO: subclass override
+    NSLog(@"did select reply button at {%d, %d}", (int)indexPath.section, (int)indexPath.item);
 }
 
 @end

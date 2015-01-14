@@ -29,7 +29,10 @@
 
 - (void)commonInitSKTwitterMediaCollectionViewFlowLayout
 {
+    self.scrollDirection = UICollectionViewScrollDirectionVertical;
     self.sectionInset = UIEdgeInsetsMake(4.0f, 8.0f, 4.0f, 8.0f);
+    self.minimumLineSpacing = 8.0f;
+    self.minimumInteritemSpacing = 8.0f;
 }
 
 #pragma mark - Collection view flow layout

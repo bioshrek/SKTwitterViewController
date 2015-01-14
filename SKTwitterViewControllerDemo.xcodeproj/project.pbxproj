@@ -58,6 +58,7 @@
 		561F64DD1A65061C00FFC830 /* SKTwitterAlbumMediaViewSquareStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTwitterAlbumMediaViewSquareStyle.m; sourceTree = "<group>"; };
 		561F64DF1A65065200FFC830 /* SKTwitterAlbumMediaViewRectangleStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTwitterAlbumMediaViewRectangleStyle.h; sourceTree = "<group>"; };
 		561F64E01A65065200FFC830 /* SKTwitterAlbumMediaViewRectangleStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTwitterAlbumMediaViewRectangleStyle.m; sourceTree = "<group>"; };
+		561F64E21A6614F900FFC830 /* SKTwitterCollectionViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTwitterCollectionViewDelegate.h; sourceTree = "<group>"; };
 		5643A4761A5E66C70019466E /* SKTwitterViewControllerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SKTwitterViewControllerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5643A47A1A5E66C70019466E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5643A47B1A5E66C70019466E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -231,6 +232,7 @@
 				146D0E441A611AFC00E91676 /* SKTwitterMediaView.h */,
 				146D0E451A611AFC00E91676 /* SKTwitterMediaView.m */,
 				146D0E4A1A61637C00E91676 /* SKTwitterMediaView.xib */,
+				561F64E21A6614F900FFC830 /* SKTwitterCollectionViewDelegate.h */,
 			);
 			path = Views;
 			sourceTree = "<group>";

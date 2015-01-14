@@ -8,7 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@class SKTwitterCollectionViewCell;
 #import "SKTwitterMediaCollectionView.h"
+
+#pragma mark - SKTwitterCollectionViewCell Delegate
+
+@protocol SKTwitterCollectionViewCellDelegate <NSObject>
+
+- (void)didSelectAvatorButtonInCollectionViewCell:(SKTwitterCollectionViewCell *)cell;
+
+- (void)didSelectReplyButtonInCollectionViewCell:(SKTwitterCollectionViewCell *)cell;
+
+@end
+
 
 #pragma mark - layout constants
 
@@ -21,7 +33,7 @@ extern CGFloat const kSKTwitterCollectionViewCellAvatorImageWidth;
 
 @interface SKTwitterCollectionViewCell : UICollectionViewCell
 
-@property (weak, nonatomic, readonly) UIImageView *avatorImageView;
+@property (weak, nonatomic, readonly) UIButton *avatorButton;
 @property (weak, nonatomic, readonly) UILabel *nameLabel;
 @property (weak, nonatomic, readonly) UILabel *dateTimeLabel;
 @property (weak, nonatomic, readonly) UIButton *replyButton;
@@ -32,6 +44,9 @@ extern CGFloat const kSKTwitterCollectionViewCellAvatorImageWidth;
 
 @property (weak, nonatomic, readonly) NSLayoutConstraint *mediaCollectionViewHeightConstraint;
 @property (weak, nonatomic, readonly) SKTwitterMediaCollectionView *mediaCollectionView;
+
+@property (copy, nonatomic) NSIndexPath *albumIndexPath;
+@property (weak, nonatomic) id<SKTwitterCollectionViewCellDelegate> delegate;
 
 /**
  *  Returns the `UINib` object initialized for the cell.
@@ -49,3 +64,6 @@ extern CGFloat const kSKTwitterCollectionViewCellAvatorImageWidth;
 + (NSString *)cellReuseIdentifier;
 
 @end
+
+
+

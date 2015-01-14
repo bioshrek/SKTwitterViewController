@@ -14,17 +14,24 @@
                 <rect key="frame" x="0.0" y="0.0" width="348" height="410"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dye-MU-FSh">
-                        <rect key="frame" x="0.0" y="8" width="340" height="44"/>
+                        <rect key="frame" x="8" y="8" width="332" height="44"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YhB-gn-hmg">
-                                <rect key="frame" x="8" y="0.0" width="44" height="44"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s4C-A9-4ox">
+                                <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
+                                <color key="backgroundColor" red="0.76641049589999999" green="0.76641049589999999" blue="0.76641049589999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="44" id="Xd2-f0-nMj"/>
-                                    <constraint firstAttribute="height" constant="44" id="kXg-Qh-jGv"/>
+                                    <constraint firstAttribute="width" constant="44" id="bum-HT-28n"/>
+                                    <constraint firstAttribute="height" constant="44" id="oKv-ne-5aD"/>
                                 </constraints>
-                            </imageView>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="avatorButtonTouched:" destination="gTV-IL-0wX" eventType="touchUpInside" id="Zwo-yi-VBY"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1t4-3H-MCA">
-                                <rect key="frame" x="60" y="0.0" width="204" height="21"/>
+                                <rect key="frame" x="52" y="0.0" width="204" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="voO-CL-Ntd"/>
                                 </constraints>
@@ -32,8 +39,17 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date Time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sWE-pB-SLt">
+                                <rect key="frame" x="52" y="23" width="204" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="XWn-l8-6H4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jXF-0x-h9W">
-                                <rect key="frame" x="272" y="0.0" width="68" height="44"/>
+                                <rect key="frame" x="264" y="0.0" width="68" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="68" id="NhV-l9-zkI"/>
                                     <constraint firstAttribute="height" constant="44" id="Qib-aF-RnH"/>
@@ -42,29 +58,23 @@
                                 <state key="normal" title="9999" image="reply">
                                     <color key="titleColor" red="0.35294118520000001" green="0.63921570780000003" blue="0.97254908080000002" alpha="1" colorSpace="deviceRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="replyButtonTouched:" destination="gTV-IL-0wX" eventType="touchUpInside" id="hic-Vh-9oI"/>
+                                </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date Time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sWE-pB-SLt">
-                                <rect key="frame" x="60" y="23" width="204" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="XWn-l8-6H4"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="jXF-0x-h9W" firstAttribute="leading" secondItem="sWE-pB-SLt" secondAttribute="trailing" constant="8" id="24r-vK-8G5"/>
                             <constraint firstAttribute="centerY" secondItem="jXF-0x-h9W" secondAttribute="centerY" id="EPW-ed-u1H"/>
-                            <constraint firstItem="1t4-3H-MCA" firstAttribute="leading" secondItem="YhB-gn-hmg" secondAttribute="trailing" constant="8" id="HCc-hw-EI4"/>
+                            <constraint firstItem="sWE-pB-SLt" firstAttribute="leading" secondItem="s4C-A9-4ox" secondAttribute="trailing" constant="8" id="Ksl-xQ-QOJ"/>
                             <constraint firstAttribute="bottom" secondItem="sWE-pB-SLt" secondAttribute="bottom" id="LP7-2K-qci"/>
                             <constraint firstAttribute="trailing" secondItem="jXF-0x-h9W" secondAttribute="trailing" id="POx-ha-8o1"/>
-                            <constraint firstAttribute="centerY" secondItem="YhB-gn-hmg" secondAttribute="centerY" id="SdA-7P-Y1u"/>
                             <constraint firstItem="jXF-0x-h9W" firstAttribute="leading" secondItem="1t4-3H-MCA" secondAttribute="trailing" constant="8" id="UIO-tx-3Vk"/>
-                            <constraint firstItem="sWE-pB-SLt" firstAttribute="leading" secondItem="YhB-gn-hmg" secondAttribute="trailing" constant="8" id="dwy-8c-PrS"/>
-                            <constraint firstItem="YhB-gn-hmg" firstAttribute="leading" secondItem="dye-MU-FSh" secondAttribute="leading" constant="8" id="hQ4-XB-esW"/>
+                            <constraint firstItem="s4C-A9-4ox" firstAttribute="leading" secondItem="dye-MU-FSh" secondAttribute="leading" id="boQ-Z7-6IO"/>
+                            <constraint firstItem="s4C-A9-4ox" firstAttribute="top" secondItem="dye-MU-FSh" secondAttribute="top" id="fqp-4F-LMS"/>
                             <constraint firstAttribute="height" constant="44" id="lAK-SK-nFm"/>
+                            <constraint firstItem="1t4-3H-MCA" firstAttribute="leading" secondItem="s4C-A9-4ox" secondAttribute="trailing" constant="8" id="r83-DV-KqV"/>
                             <constraint firstItem="1t4-3H-MCA" firstAttribute="top" secondItem="dye-MU-FSh" secondAttribute="top" id="vnx-BY-JzY"/>
                         </constraints>
                     </view>
@@ -98,16 +108,16 @@
                 <constraint firstItem="f9b-3F-Jfe" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="UOb-oa-g9R"/>
                 <constraint firstAttribute="trailing" secondItem="f9b-3F-Jfe" secondAttribute="trailing" constant="8" id="VSH-Xw-SKF"/>
                 <constraint firstItem="eZx-PR-dsB" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="cmo-OA-pRA"/>
-                <constraint firstItem="dye-MU-FSh" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="fdD-Nc-nFe"/>
+                <constraint firstItem="dye-MU-FSh" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="fdD-Nc-nFe"/>
                 <constraint firstAttribute="trailing" secondItem="eZx-PR-dsB" secondAttribute="trailing" constant="8" id="qwo-cU-z1d"/>
             </constraints>
             <size key="customSize" width="348" height="410"/>
             <connections>
                 <outlet property="UserInfoHolderViewHeightConstraint" destination="lAK-SK-nFm" id="N2v-IG-gGL"/>
-                <outlet property="avatorImageView" destination="YhB-gn-hmg" id="FMC-LC-r7g"/>
-                <outlet property="avatorImageWidthConstraint" destination="Xd2-f0-nMj" id="qcG-ZS-ndE"/>
+                <outlet property="avatorButton" destination="s4C-A9-4ox" id="nDh-5P-aO0"/>
+                <outlet property="avatorImageWidthConstraint" destination="bum-HT-28n" id="gyK-pU-5uO"/>
                 <outlet property="dateTimeLabel" destination="sWE-pB-SLt" id="U3E-lK-mqs"/>
-                <outlet property="imageView_NameLabel_HorizontalSpacingConstraint" destination="HCc-hw-EI4" id="FK6-FO-ak7"/>
+                <outlet property="imageView_NameLabel_HorizontalSpacingConstraint" destination="r83-DV-KqV" id="3WU-gJ-MK6"/>
                 <outlet property="mediaCollectionView" destination="f9b-3F-Jfe" id="u5q-47-mJ5"/>
                 <outlet property="mediaCollectionViewHeightConstraint" destination="ktZ-ob-kpH" id="Ry4-cm-pTU"/>
                 <outlet property="mediaCollectionViewMarginLeftConstraint" destination="UOb-oa-g9R" id="KAS-Xb-rW1"/>
@@ -118,7 +128,7 @@
                 <outlet property="textLabelHeightConstraint" destination="s1S-A9-7y3" id="cAG-YY-08n"/>
                 <outlet property="textLabelMarginLeftConstraint" destination="cmo-OA-pRA" id="6X2-L2-uRZ"/>
                 <outlet property="textLabelVerticalSpacing" destination="5xu-yC-gNG" id="BeS-lD-bu0"/>
-                <outlet property="userInfoHolderViewMarginLeftConstraint" destination="hQ4-XB-esW" id="Xjr-gR-Ahd"/>
+                <outlet property="userInfoHolderViewMarginLeftConstraint" destination="fdD-Nc-nFe" id="3P6-Ni-11u"/>
             </connections>
         </collectionViewCell>
     </objects>
