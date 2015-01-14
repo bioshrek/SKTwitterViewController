@@ -46,4 +46,10 @@
 // media cell size
 - (CGSize)mediaDisplaySizeForMediaAtIndexPath:(NSIndexPath *)mediaIndexPath forAlbumAtIndexPath:(NSIndexPath *)albumIndexPath;
 
+#pragma mark - Footer view
+
+- (BOOL)collectionView:(SKTwitterCollectionView *)collectionView shouldShowFooterViewInSection:(NSInteger)section;
+
+- (NSAttributedString *)collectionView:(SKTwitterCollectionView *)collectionView footerViewAttributedTextInSection:(NSInteger)section;
+
 @end

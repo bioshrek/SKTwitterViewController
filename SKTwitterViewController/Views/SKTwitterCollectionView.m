@@ -11,6 +11,7 @@
 #import "SKTwitterMediaView.h"
 #import "SKTwitterCollectionViewCell.h"
 #import "SKTwitterMediaCollectionViewFlowLayout.h"
+#import "SKTwitterCollectionFooterView.h"
 
 @interface SKTwitterCollectionView ()
 
@@ -46,6 +47,10 @@
     
     [self registerNib:[SKTwitterCollectionViewCell nib]
 forCellWithReuseIdentifier:[SKTwitterCollectionViewCell cellReuseIdentifier]];
+    
+    [self registerNib:[SKTwitterCollectionFooterView nib] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:[SKTwitterCollectionFooterView cellReuseIdentifier]];
 }
+
+
 
 @end

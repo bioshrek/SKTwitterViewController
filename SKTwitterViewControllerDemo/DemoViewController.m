@@ -289,16 +289,19 @@
     switch (albumIndexPath.section) {
         case 0: {
             SKTwitterAlbumMediaDataItem *mediaItem = [self.album albumMediaForItemAtIndexPath:mediaIndexPath];
+            NSString *mediaCellReuseIdentifier = nil;
             switch (mediaIndexPath.section) {
                 case 0: {
-                    cell = [collectionView dequeueReusableCellWithReuseIdentifier:[SKTwitterAlbumMediaViewSquareStyle reuseIdentifier] forIndexPath:mediaIndexPath];
+                    mediaCellReuseIdentifier = [SKTwitterAlbumMediaViewSquareStyle reuseIdentifier];
                 } break;
                 case 1: {
-                    cell = [collectionView dequeueReusableCellWithReuseIdentifier:[SKTwitterAlbumMediaViewRectangleStyle reuseIdentifier] forIndexPath:mediaIndexPath];
+                    mediaCellReuseIdentifier = [SKTwitterAlbumMediaViewRectangleStyle reuseIdentifier];
                 } break;
                 default: break;
             }
             
+            NSAssert(mediaCellReuseIdentifier, @"media cell reuse identifier can't be nil");
+            cell = [collectionView dequeueReusableCellWithReuseIdentifier:mediaCellReuseIdentifier forIndexPath:mediaIndexPath];
             NSAssert(cell, @"media cell can't be nil");
             [self renderMediaCell:(SKTwitterAlbumMediaView *)cell withMediaItem:mediaItem];
         } break;
@@ -324,6 +327,8 @@
     
     [cell setMediaNameAttributedText:[mediaItem mediaNameAttributedText]];
     [cell setMediaSizeAttributedText:[mediaItem mediaSizeAttributedText]];
+    
+    cell.thumbnailView.image = nil;  // TODO:
 }
 
 // media cell size
@@ -350,6 +355,43 @@
     return size;
 }
 
+- (BOOL)collectionView:(SKTwitterCollectionView *)collectionView shouldShowFooterViewInSection:(NSInteger)section
+{
+    BOOL show = NO;
+    
+    switch (section) {
+        case 0: {
+            show = NO;
+        } break;
+        case 1: {
+            show = YES;
+        } break;
+        default: break;
+    }
+    
+    return show;
+}
+
+- (NSAttributedString *)collectionView:(SKTwitterCollectionView *)collectionView footerViewAttributedTextInSection:(NSInteger)section
+{
+    NSAttributedString *attributedText = nil;
+    
+    switch (section) {
+        case 0: {
+            attributedText = nil;
+        } break;
+        case 1: {
+            attributedText = [[NSAttributedString alloc] initWithString:@"Loading..."
+                                                             attributes:@{
+                                                                          NSFontAttributeName : [UIFont systemFontOfSize:16.0f]
+                                                                          }];
+        } break;
+        default: break;
+    }
+    
+    return attributedText;
+}
+
 #pragma mark - SKTwitterCollectionView Delegate
 
 - (void)collectionView:(SKTwitterCollectionView *)collectionView didSelectAlbumAtIndexPath:(NSIndexPath *)indexPath
@@ -361,7 +403,8 @@
 - (void)collectionView:(SKTwitterMediaCollectionView *)collectionView didSelectMediaAtIndexPath:(NSIndexPath *)indexPath
 {
     // TODO: subclass override
-    NSLog(@"did select media at {%d, %d}", (int)indexPath.section, (int)indexPath.item);
+    NSIndexPath *albumIndexPath = collectionView.albumIndexPath;
+    NSLog(@"did select media at {%d, %d}, {%d, %d}", (int)albumIndexPath.section, (int)albumIndexPath.item, (int)indexPath.section, (int)indexPath.item);
 }
 
 - (void)collectionView:(SKTwitterCollectionView *)collectionView didSelectAvatorButtonForAlbumAtIndexPath:(NSIndexPath *)indexPath
@@ -376,4 +419,38 @@
     NSLog(@"did select reply button at {%d, %d}", (int)indexPath.section, (int)indexPath.item);
 }
 
+- (void)collectionView:(SKTwitterMediaCollectionView *)collectionView willDisplayMediaCell:(UICollectionViewCell *)cell forMediaItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSIndexPath *albumIndexPath = collectionView.albumIndexPath;
+    NSLog(@"media will display at {%d, %d}, {%d, %d}", (int)albumIndexPath.section, (int)albumIndexPath.item, (int)indexPath.section, (int)indexPath.item);
+    
+    // TODO: trigger downloading of photos
+}
+
+- (void)collectionView:(SKTwitterMediaCollectionView *)collectionView didEndDisplayingMediaCell:(UICollectionViewCell *)cell forMediaItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    // TODO: subclass override
+    NSIndexPath *albumIndexPath = collectionView.albumIndexPath;
+    NSLog(@"media did end displaying at {%d, %d}, {%d, %d}", (int)albumIndexPath.section, (int)albumIndexPath.item, (int)indexPath.section, (int)indexPath.item);
+    
+    switch (albumIndexPath.section) {
+        case 0: {
+            SKTwitterAlbumMediaView *mediaCell = (SKTwitterAlbumMediaView *)cell;
+            mediaCell.thumbnailView.image = nil;
+        } break;
+        default:
+            break;
+    }
+}
+
+- (void)collectionView:(SKTwitterCollectionView *)collectionView willDisplayFooterView:(UICollectionReusableView *)footerView forAlbumInSection:(NSInteger)section
+{
+    NSLog(@"footer view will display...");
+}
+
+- (IBAction)reloadSectionButtonPressed:(id)sender {
+    [self.collectionView reloadItemsAtIndexPaths:@[
+                                                   [NSIndexPath indexPathForItem:0 inSection:0]
+                                                   ]];
+}
 @end

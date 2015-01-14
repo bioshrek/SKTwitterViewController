@@ -9,8 +9,8 @@
 #import "SKTwitterViewController.h"
 
 #import "SKTwitterTableLayout.h"
-
 #import "SKTwitterCollectionViewCell.h"
+#import "SKTwitterCollectionFooterView.h"
 
 @interface SKTwitterViewController () <SKTwitterCollectionViewCellDelegate>
 
@@ -92,9 +92,45 @@
     } else if ([collectionView isKindOfClass:[SKTwitterMediaCollectionView class]]) {
         SKTwitterMediaCollectionView *mediaCollectionView = (SKTwitterMediaCollectionView *)collectionView;
         cell = [self collectionView:mediaCollectionView mediaCellForItemAtIndexPath:indexPath];
+        
+        [self collectionView:mediaCollectionView willDisplayMediaCell:cell forMediaItemAtIndexPath:indexPath];
     }
     
     return cell;
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
+           viewForSupplementaryElementOfKind:(NSString *)kind
+                                 atIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionReusableView *view = nil;
+    
+    if ([collectionView isKindOfClass:[SKTwitterCollectionView class]] && [kind isEqualToString:UICollectionElementKindSectionFooter]) {
+        view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:[SKTwitterCollectionFooterView cellReuseIdentifier] forIndexPath:indexPath];
+        SKTwitterCollectionFooterView *footerView = (SKTwitterCollectionFooterView *)view;
+        SKTwitterCollectionView *albumCollectionView = (SKTwitterCollectionView *)collectionView;
+        footerView.label.attributedText = [self collectionView:albumCollectionView footerViewAttributedTextInSection:indexPath.section];
+        [footerView.activityIndicator startAnimating];
+        
+        [self collectionView:albumCollectionView willDisplayFooterView:footerView forAlbumInSection:indexPath.section];
+    }
+    
+    return view;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
+{
+    CGSize size = CGSizeZero;
+    
+    if ([collectionView isKindOfClass:[SKTwitterCollectionView class]]) {
+        SKTwitterTableLayout *albumCollectionLayout = (SKTwitterTableLayout *)collectionViewLayout;
+        size = [self collectionView:(SKTwitterCollectionView *)collectionView shouldShowFooterViewInSection:section] ?
+            CGSizeMake([albumCollectionLayout itemWidth], kSKTwitterCollectionFooterViewHeight) :
+            CGSizeZero;
+    }
+
+    return size;
 }
 
 #pragma mark - Collection view delegate flow layout
@@ -129,6 +165,38 @@
     } else if ([collectionView isKindOfClass:[SKTwitterMediaCollectionView class]]) {
         SKTwitterMediaCollectionView *mediaCollectionView = (SKTwitterMediaCollectionView *)collectionView;
         [self collectionView:mediaCollectionView didSelectMediaAtIndexPath:indexPath];
+    }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([collectionView isKindOfClass:[SKTwitterCollectionView class]]) {
+        // TODO:
+    } else if ([collectionView isKindOfClass:[SKTwitterMediaCollectionView class]]) {
+        SKTwitterMediaCollectionView *mediaCollectionView = (SKTwitterMediaCollectionView *)collectionView;
+        [self collectionView:mediaCollectionView willDisplayMediaCell:cell forMediaItemAtIndexPath:indexPath];
+    }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([collectionView isKindOfClass:[SKTwitterCollectionView class]]) {
+        // TODO:
+    } else if ([collectionView isKindOfClass:[SKTwitterMediaCollectionView class]]) {
+        SKTwitterMediaCollectionView *mediaCollectionView = (SKTwitterMediaCollectionView *)collectionView;
+        [self collectionView:mediaCollectionView didEndDisplayingMediaCell:cell forMediaItemAtIndexPath:indexPath];
+    }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingSupplementaryView:(UICollectionReusableView *)view forElementOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath
+{
+    if ([collectionView isKindOfClass:[SKTwitterCollectionView class]]) {
+        if ([elementKind isEqualToString:UICollectionElementKindSectionFooter]) {
+            SKTwitterCollectionFooterView *footerView = (SKTwitterCollectionFooterView *)view;
+            [footerView.activityIndicator stopAnimating];
+        }
+    } else if ([collectionView isKindOfClass:[SKTwitterMediaCollectionView class]]) {
+        // TODO:
     }
 }
 
@@ -217,6 +285,18 @@
     return cell;
 }
 
+- (BOOL)collectionView:(SKTwitterCollectionView *)collectionView shouldShowFooterViewInSection:(NSInteger)section
+{
+    NSAssert(NO, @"subclass is required to override this method");
+    return NO;
+}
+
+- (NSAttributedString *)collectionView:(SKTwitterCollectionView *)collectionView footerViewAttributedTextInSection:(NSInteger)section
+{
+    NSAssert(NO, @"subclass is required to override this method");
+    return nil;
+}
+
 #pragma mark - Media collection
 
 // number of media sections
@@ -279,6 +359,29 @@
 - (void)didSelectReplyButtonInCollectionViewCell:(SKTwitterCollectionViewCell *)cell
 {
     [self collectionView:self.collectionView didSelectReplyButtonForAlbumAtIndexPath:cell.albumIndexPath];
+}
+
+- (void)collectionView:(SKTwitterMediaCollectionView *)collectionView willDisplayMediaCell:(UICollectionViewCell *)cell forMediaItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    // TODO: subclass override
+}
+
+- (void)collectionView:(SKTwitterMediaCollectionView *)collectionView didEndDisplayingMediaCell:(UICollectionViewCell *)cell forMediaItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    // TODO: subclass override
+}
+
+- (void)collectionView:(SKTwitterCollectionView *)collectionView willDisplayFooterView:(UICollectionReusableView *)footerView forAlbumInSection:(NSInteger)section
+{
+    // TODO: subclass override
+}
+
+#pragma mark - Access media cell
+
+- (UICollectionViewCell *)mediaCellForAlbumAtIndexPath:(NSIndexPath *)albumIndexPath forMediaAtIndexPath:(NSIndexPath *)mediaIndexPath
+{
+    SKTwitterCollectionViewCell *albumCollectionViewCell = (SKTwitterCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:albumIndexPath];
+    return [albumCollectionViewCell.mediaCollectionView cellForItemAtIndexPath:mediaIndexPath];
 }
 
 @end

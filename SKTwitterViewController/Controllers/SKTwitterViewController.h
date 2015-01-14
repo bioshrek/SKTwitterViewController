@@ -17,4 +17,6 @@
 
 @property (nonatomic, weak, readonly) SKTwitterCollectionView *collectionView;
 
+- (UICollectionViewCell *)mediaCellForAlbumAtIndexPath:(NSIndexPath *)albumIndexPath forMediaAtIndexPath:(NSIndexPath *)mediaIndexPath;
+
 @end
