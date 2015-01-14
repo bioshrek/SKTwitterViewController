@@ -25,7 +25,6 @@
 		5643A4871A5E66C70019466E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5643A4861A5E66C70019466E /* Images.xcassets */; };
 		5643A48A1A5E66C70019466E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5643A4881A5E66C70019466E /* LaunchScreen.xib */; };
 		5643A4A71A5E69A10019466E /* SKTwitterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5643A4A51A5E69A10019466E /* SKTwitterViewController.m */; };
-		5643A4A81A5E69A10019466E /* SKTwitterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5643A4A61A5E69A10019466E /* SKTwitterViewController.xib */; };
 		5643A4AB1A5E6CCC0019466E /* SKTwitterCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5643A4AA1A5E6CCC0019466E /* SKTwitterCollectionView.m */; };
 		5643A4AE1A5E6D9A0019466E /* SKTwitterTableLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5643A4AD1A5E6D9A0019466E /* SKTwitterTableLayout.m */; };
 		5643A4B11A5E6DC20019466E /* SKTwitterTableLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 5643A4B01A5E6DC20019466E /* SKTwitterTableLayoutAttributes.m */; };
@@ -73,7 +72,6 @@
 		5643A4951A5E66C70019466E /* SKTwitterViewControllerDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SKTwitterViewControllerDemoTests.m; sourceTree = "<group>"; };
 		5643A4A41A5E69A10019466E /* SKTwitterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTwitterViewController.h; sourceTree = "<group>"; };
 		5643A4A51A5E69A10019466E /* SKTwitterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTwitterViewController.m; sourceTree = "<group>"; };
-		5643A4A61A5E69A10019466E /* SKTwitterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SKTwitterViewController.xib; sourceTree = "<group>"; };
 		5643A4A91A5E6CCC0019466E /* SKTwitterCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTwitterCollectionView.h; sourceTree = "<group>"; };
 		5643A4AA1A5E6CCC0019466E /* SKTwitterCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTwitterCollectionView.m; sourceTree = "<group>"; };
 		5643A4AC1A5E6D9A0019466E /* SKTwitterTableLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTwitterTableLayout.h; sourceTree = "<group>"; };
@@ -205,7 +203,6 @@
 			children = (
 				5643A4A41A5E69A10019466E /* SKTwitterViewController.h */,
 				5643A4A51A5E69A10019466E /* SKTwitterViewController.m */,
-				5643A4A61A5E69A10019466E /* SKTwitterViewController.xib */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -330,7 +327,6 @@
 			files = (
 				561F64D61A64FC0600FFC830 /* SKTwitterAlbumMediaViewSquareStyle.xib in Resources */,
 				561F64D81A64FDC500FFC830 /* SKTwitterAlbumMediaViewRectangleStyle.xib in Resources */,
-				5643A4A81A5E69A10019466E /* SKTwitterViewController.xib in Resources */,
 				146D0E4B1A61637C00E91676 /* SKTwitterMediaView.xib in Resources */,
 				5643A4851A5E66C70019466E /* Main.storyboard in Resources */,
 				5643A48A1A5E66C70019466E /* LaunchScreen.xib in Resources */,

@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Demo View Controller-->
@@ -16,14 +17,57 @@
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hG7-vh-RT9" customClass="SKTwitterCollectionView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewLayout key="collectionViewLayout" id="35H-BO-iSO" customClass="SKTwitterTableLayout"/>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="xgO-jX-fjp">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="hG7-vh-RT9" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="591-Hd-kWs"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="hG7-vh-RT9" secondAttribute="bottom" id="6jK-tH-ViO"/>
+                            <constraint firstItem="hG7-vh-RT9" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="eG7-7j-NnD"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="hG7-vh-RT9" secondAttribute="trailing" constant="-16" id="n1u-Lj-ORI"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="591-Hd-kWs"/>
+                                <exclude reference="eG7-7j-NnD"/>
+                                <exclude reference="n1u-Lj-ORI"/>
+                                <exclude reference="6jK-tH-ViO"/>
+                            </mask>
+                        </variation>
+                        <variation key="widthClass=compact">
+                            <mask key="constraints">
+                                <include reference="591-Hd-kWs"/>
+                                <include reference="eG7-7j-NnD"/>
+                                <include reference="n1u-Lj-ORI"/>
+                                <include reference="6jK-tH-ViO"/>
+                            </mask>
+                        </variation>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="pFo-WR-yfE"/>
+                    <connections>
+                        <outlet property="collectionView" destination="hG7-vh-RT9" id="LJ1-pR-Oco"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="211.5" y="349.5"/>
+            <point key="canvasLocation" x="211.5" y="349"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4eO-Ke-66a">

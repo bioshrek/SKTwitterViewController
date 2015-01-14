@@ -17,6 +17,4 @@
 
 @property (nonatomic, weak, readonly) SKTwitterCollectionView *collectionView;
 
-+ (UINib *)nib;
-
 @end

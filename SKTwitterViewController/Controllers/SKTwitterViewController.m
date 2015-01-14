@@ -22,20 +22,11 @@
 
 @implementation SKTwitterViewController
 
-#pragma mark - nib
-
-+ (UINib *)nib
-{
-    return [UINib nibWithNibName:NSStringFromClass([self class]) bundle:[NSBundle mainBundle]];
-}
-
-
 #pragma mark - life cycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[SKTwitterViewController nib] instantiateWithOwner:self options:nil];
     [self commonInitSKTwitterViewController];
 }
 
