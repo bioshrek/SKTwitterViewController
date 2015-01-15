@@ -10,6 +10,7 @@
 
 #import "SKTwitterTableLayout.h"
 #import "SKTwitterCollectionViewCell.h"
+#import "SKTwitterCollectionHeaderView.h"
 #import "SKTwitterCollectionFooterView.h"
 
 @interface SKTwitterViewController () <SKTwitterCollectionViewCellDelegate>
@@ -105,18 +106,26 @@
 {
     UICollectionReusableView *view = nil;
     
-    if ([collectionView isKindOfClass:[SKTwitterCollectionView class]] && [kind isEqualToString:UICollectionElementKindSectionFooter]) {
-        view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:[SKTwitterCollectionFooterView cellReuseIdentifier] forIndexPath:indexPath];
-        SKTwitterCollectionFooterView *footerView = (SKTwitterCollectionFooterView *)view;
+    if ([collectionView isKindOfClass:[SKTwitterCollectionView class]]) {
         SKTwitterCollectionView *albumCollectionView = (SKTwitterCollectionView *)collectionView;
-        footerView.label.attributedText = [self collectionView:albumCollectionView footerViewAttributedTextInSection:indexPath.section];
-        [footerView.activityIndicator startAnimating];
         
-        [self collectionView:albumCollectionView willDisplayFooterView:footerView forAlbumInSection:indexPath.section];
+        if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
+            view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:[SKTwitterCollectionFooterView cellReuseIdentifier] forIndexPath:indexPath];
+            SKTwitterCollectionFooterView *footerView = (SKTwitterCollectionFooterView *)view;
+            footerView.label.attributedText = [self collectionView:albumCollectionView footerViewAttributedTextInSection:indexPath.section];
+            [footerView.activityIndicator startAnimating];
+            
+            [self collectionView:albumCollectionView willDisplayFooterView:footerView forAlbumInSection:indexPath.section];
+        } else if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+            view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:[SKTwitterCollectionHeaderView cellReuseIdentifier] forIndexPath:indexPath];
+            SKTwitterCollectionHeaderView *headerView = (SKTwitterCollectionHeaderView *)view;
+            headerView.label.attributedText = [self collectionView:albumCollectionView headerViewAttributedTextInSection:indexPath.section];
+        }
     }
     
     return view;
 }
+
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
@@ -130,6 +139,21 @@
             CGSizeZero;
     }
 
+    return size;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+{
+    CGSize size = CGSizeZero;
+    
+    if ([collectionView isKindOfClass:[SKTwitterCollectionView class]]) {
+        SKTwitterTableLayout *albumCollectionLayout = (SKTwitterTableLayout *)collectionViewLayout;
+        size = [self collectionView:(SKTwitterCollectionView *)collectionView shouldShowHeaderViewInSection:section] ?
+        CGSizeMake([albumCollectionLayout itemWidth], kSKTwitterCollectionHeaderViewHeight) :
+        CGSizeZero;
+    }
+    
     return size;
 }
 
@@ -292,6 +316,18 @@
 }
 
 - (NSAttributedString *)collectionView:(SKTwitterCollectionView *)collectionView footerViewAttributedTextInSection:(NSInteger)section
+{
+    NSAssert(NO, @"subclass is required to override this method");
+    return nil;
+}
+
+- (BOOL)collectionView:(SKTwitterCollectionView *)collectionView shouldShowHeaderViewInSection:(NSInteger)section
+{
+    NSAssert(NO, @"subclass is required to override this method");
+    return nil;
+}
+
+- (NSAttributedString *)collectionView:(SKTwitterCollectionView *)collectionView headerViewAttributedTextInSection:(NSInteger)section
 {
     NSAssert(NO, @"subclass is required to override this method");
     return nil;

@@ -52,4 +52,10 @@
 
 - (NSAttributedString *)collectionView:(SKTwitterCollectionView *)collectionView footerViewAttributedTextInSection:(NSInteger)section;
 
+#pragma mark - Header View
+
+- (BOOL)collectionView:(SKTwitterCollectionView *)collectionView shouldShowHeaderViewInSection:(NSInteger)section;
+
+- (NSAttributedString *)collectionView:(SKTwitterCollectionView *)collectionView headerViewAttributedTextInSection:(NSInteger)section;
+
 @end

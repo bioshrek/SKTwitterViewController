@@ -40,6 +40,8 @@
 - (void)invalidateLayoutWithContext:(UICollectionViewLayoutInvalidationContext *)context
 {
     [super invalidateLayoutWithContext:context];
+    
+    // TODO:
 }
 
 - (void)prepareLayout
@@ -86,6 +88,15 @@
     return NO;
 }
 
+- (UICollectionViewLayoutInvalidationContext *)invalidationContextForBoundsChange:(CGRect)newBounds
+{
+    UICollectionViewFlowLayoutInvalidationContext *flowLayoutInvalidationContext = (UICollectionViewFlowLayoutInvalidationContext *)[super invalidationContextForBoundsChange:newBounds];
+    flowLayoutInvalidationContext.invalidateFlowLayoutDelegateMetrics = NO;
+    flowLayoutInvalidationContext.invalidateFlowLayoutAttributes = YES;
+    
+    return flowLayoutInvalidationContext;
+}
+
 - (void)prepareForCollectionViewUpdates:(NSArray *)updateItems
 {
     [super prepareForCollectionViewUpdates:updateItems];
@@ -104,6 +115,7 @@
 
 - (void)configureMediaCellLayoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes
 {
+    // TODO: 
 //    NSLog(@"media item %d, frame: %@", (int)layoutAttributes.indexPath.item, NSStringFromCGRect(layoutAttributes.frame));
 }
 

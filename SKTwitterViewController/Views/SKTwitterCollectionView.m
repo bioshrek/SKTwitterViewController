@@ -11,6 +11,7 @@
 #import "SKTwitterMediaView.h"
 #import "SKTwitterCollectionViewCell.h"
 #import "SKTwitterMediaCollectionViewFlowLayout.h"
+#import "SKTwitterCollectionHeaderView.h"
 #import "SKTwitterCollectionFooterView.h"
 
 @interface SKTwitterCollectionView ()
@@ -45,10 +46,15 @@
     self.alwaysBounceVertical = YES;
     self.bounces = YES;
     
+    // register cell prototype
     [self registerNib:[SKTwitterCollectionViewCell nib]
 forCellWithReuseIdentifier:[SKTwitterCollectionViewCell cellReuseIdentifier]];
     
+    // register footer view prototype
     [self registerNib:[SKTwitterCollectionFooterView nib] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:[SKTwitterCollectionFooterView cellReuseIdentifier]];
+    
+    // register header view prototype
+    [self registerNib:[SKTwitterCollectionHeaderView nib] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:[SKTwitterCollectionHeaderView cellReuseIdentifier]];
 }
 
 

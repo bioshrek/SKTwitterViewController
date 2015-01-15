@@ -13,6 +13,8 @@
 #import "SKTwitterMediaCollectionView.h"
 #import "SKTwitterMediaCollectionViewFlowLayout.h"
 #import "SKTwitterCollectionViewCell.h"
+#import "SKTwitterCollectionHeaderView.h"
+#import "SKTwitterCollectionFooterView.h"
 
 
 @interface SKTwitterTableLayout ()
@@ -88,7 +90,16 @@
 {
     self.scrollDirection = UICollectionViewScrollDirectionVertical;
     self.sectionInset = UIEdgeInsetsMake(10.0f, 8.0f, 10.0f, 8.0f);
-    self.minimumLineSpacing = 20.0f;
+    self.minimumLineSpacing = 8.0f;
+}
+
+- (void)dealloc
+{
+    [_mediaCollectionHeightCache removeAllObjects];
+    _mediaCollectionHeightCache = nil;
+    
+    [_textViewHeightCache removeAllObjects];
+    _textViewHeightCache = nil;
 }
 
 #pragma mark - getter
@@ -108,7 +119,8 @@
     }
     
     if (context.emptyCache) {
-        // TODO: empty cache
+        [self.textViewHeightCache removeAllObjects];
+        [self.mediaCollectionHeightCache removeAllObjects];
     }
     
     [super invalidateLayoutWithContext:context];
@@ -119,6 +131,9 @@
     [super prepareLayout];
     
     // TODO:
+    
+    self.footerReferenceSize = CGSizeMake(self.itemWidth, kSKTwitterCollectionFooterViewHeight);
+    self.headerReferenceSize = CGSizeMake(self.itemWidth, kSKTwitterCollectionHeaderViewHeight);
 }
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
@@ -129,9 +144,6 @@
         if (attributesItem.representedElementCategory == UICollectionElementCategoryCell) {
             [self configureAlbumCellLayoutAttributes:attributesItem];
         }
-        else {
-            attributesItem.zIndex = -1;
-        }
     }];
     
     return attributesInRect;
@@ -139,13 +151,11 @@
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    SKTwitterTableLayoutAttributes *customAttributes = (SKTwitterTableLayoutAttributes *)[super layoutAttributesForItemAtIndexPath:indexPath];
+    SKTwitterTableLayoutAttributes *attributesItem = (SKTwitterTableLayoutAttributes *)[super layoutAttributesForItemAtIndexPath:indexPath];
     
-    if (customAttributes.representedElementCategory == UICollectionElementCategoryCell) {
-        [self configureAlbumCellLayoutAttributes:customAttributes];
-    }
+    [self configureAlbumCellLayoutAttributes:attributesItem];
     
-    return customAttributes;
+    return attributesItem;
 }
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
@@ -156,6 +166,18 @@
     }
     
     return NO;
+}
+
+- (UICollectionViewLayoutInvalidationContext *)invalidationContextForBoundsChange:(CGRect)newBounds
+{
+    UICollectionViewLayoutInvalidationContext *layoutInvalidationContext = [super invalidationContextForBoundsChange:newBounds];
+    
+    SKTwitterTableLayoutInvalidationContext *sklayoutInvalidationContext = (SKTwitterTableLayoutInvalidationContext *)layoutInvalidationContext;
+    sklayoutInvalidationContext.invalidateFlowLayoutDelegateMetrics = YES;
+    sklayoutInvalidationContext.invalidateFlowLayoutAttributes = YES;
+    sklayoutInvalidationContext.emptyCache = YES;
+    
+    return sklayoutInvalidationContext;
 }
 
 - (void)prepareForCollectionViewUpdates:(NSArray *)updateItems
@@ -218,9 +240,10 @@
     CGFloat mediaCollectionHolderViewHeight = [self mediaCollectionViewHeightWithDatasource:dataSource albumIndexPath:indexPath indent:indent];
     CGFloat mediaCollectionViewVerticalSpacing = mediaCollectionHolderViewHeight ? kSKTwitterCollectionViewCellMarginTopSpacing : 0;
     
-    CGFloat totalHeight =   kSKTwitterCollectionViewCellUserInfoHolderViewHeight + kSKTwitterCollectionViewCellMarginTopSpacing +
-                            textViewHeight + textViewVerticalSpacing +
-                            mediaCollectionHolderViewHeight + mediaCollectionViewVerticalSpacing;
+    CGFloat totalHeight =   kSKTwitterCollectionViewCellMarginTopSpacing + kSKTwitterCollectionViewCellUserInfoHolderViewHeight +
+                            textViewVerticalSpacing + textViewHeight +
+                            mediaCollectionViewVerticalSpacing + mediaCollectionHolderViewHeight +
+                            kSKTwitterCollectionViewCellMarginBottomSpacing;
     return totalHeight;
 }
 
@@ -301,6 +324,5 @@
     
     return CGSizeMake(self.itemWidth, ceilf(totalHeight));
 }
-
 
 @end

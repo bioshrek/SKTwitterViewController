@@ -39,6 +39,10 @@
     [super viewDidLoad];
 
     self.collectionView.skTwitterCollectionViewDataSource = self;
+    self.collectionView.backgroundColor = [UIColor colorWithRed:231.0f / 255.0f
+                                                          green:243.0f / 255.0f
+                                                           blue:209.0f / 255.0f
+                                                          alpha:1.0f];
     
     // register media cell
     
@@ -343,7 +347,7 @@
                     size = CGSizeMake(74, 74);
                 } break;
                 case 1: {
-                    size = CGSizeMake(260, 76);
+                    size = CGSizeMake(238, 76);
                 } break;
                 default: break;
             }
@@ -382,6 +386,43 @@
         } break;
         case 1: {
             attributedText = [[NSAttributedString alloc] initWithString:@"Loading..."
+                                                             attributes:@{
+                                                                          NSFontAttributeName : [UIFont systemFontOfSize:16.0f]
+                                                                          }];
+        } break;
+        default: break;
+    }
+    
+    return attributedText;
+}
+
+- (BOOL)collectionView:(SKTwitterCollectionView *)collectionView shouldShowHeaderViewInSection:(NSInteger)section
+{
+    BOOL show = NO;
+    
+    switch (section) {
+        case 0: {
+            show = NO;
+        } break;
+        case 1: {
+            show = YES;
+        } break;
+        default: break;
+    }
+    
+    return show;
+}
+
+- (NSAttributedString *)collectionView:(SKTwitterCollectionView *)collectionView headerViewAttributedTextInSection:(NSInteger)section
+{
+    NSAttributedString *attributedText = nil;
+    
+    switch (section) {
+        case 0: {
+            attributedText = nil;
+        } break;
+        case 1: {
+            attributedText = [[NSAttributedString alloc] initWithString:@"Comments(10)"
                                                              attributes:@{
                                                                           NSFontAttributeName : [UIFont systemFontOfSize:16.0f]
                                                                           }];

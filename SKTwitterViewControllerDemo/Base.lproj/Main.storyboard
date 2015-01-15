@@ -20,7 +20,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hG7-vh-RT9" customClass="SKTwitterCollectionView">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.96908880739795922" green="0.94208837622805985" blue="0.93056317433926639" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewLayout key="collectionViewLayout" id="35H-BO-iSO" customClass="SKTwitterTableLayout"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="xgO-jX-fjp">
@@ -37,7 +37,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="hG7-vh-RT9" secondAttribute="trailing" constant="-16" id="BYt-YB-Kgw"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="hG7-vh-RT9" secondAttribute="trailing" constant="-16" id="BYt-YB-Kgw">
+                                <variation key="heightClass=compact" constant="-16"/>
+                            </constraint>
                             <constraint firstItem="hG7-vh-RT9" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="NaJ-aI-Ab2"/>
                             <constraint firstItem="hG7-vh-RT9" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="TLG-S9-2FQ"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="hG7-vh-RT9" secondAttribute="bottom" id="h8V-ds-78Z"/>

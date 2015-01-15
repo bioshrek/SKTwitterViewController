@@ -23,12 +23,4 @@
     return self;
 }
 
-+ (instancetype)context
-{
-    SKTwitterTableLayoutInvalidationContext *context = [[SKTwitterTableLayoutInvalidationContext alloc] init];
-    context.invalidateFlowLayoutDelegateMetrics = YES;
-    context.invalidateFlowLayoutAttributes = YES;
-    return context;
-}
-
 @end

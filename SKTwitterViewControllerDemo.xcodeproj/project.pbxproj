@@ -18,6 +18,8 @@
 		561F64DB1A65042F00FFC830 /* SKTwitterAlbumMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 561F64DA1A65042F00FFC830 /* SKTwitterAlbumMediaView.m */; };
 		561F64DE1A65061C00FFC830 /* SKTwitterAlbumMediaViewSquareStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 561F64DD1A65061C00FFC830 /* SKTwitterAlbumMediaViewSquareStyle.m */; };
 		561F64E11A65065200FFC830 /* SKTwitterAlbumMediaViewRectangleStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 561F64E01A65065200FFC830 /* SKTwitterAlbumMediaViewRectangleStyle.m */; };
+		56392A461A67775C00418116 /* SKTwitterCollectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 56392A441A67775C00418116 /* SKTwitterCollectionHeaderView.m */; };
+		56392A471A67775C00418116 /* SKTwitterCollectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56392A451A67775C00418116 /* SKTwitterCollectionHeaderView.xib */; };
 		5643A47C1A5E66C70019466E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5643A47B1A5E66C70019466E /* main.m */; };
 		5643A47F1A5E66C70019466E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5643A47E1A5E66C70019466E /* AppDelegate.m */; };
 		5643A4821A5E66C70019466E /* DemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5643A4811A5E66C70019466E /* DemoViewController.m */; };
@@ -60,6 +62,9 @@
 		561F64DF1A65065200FFC830 /* SKTwitterAlbumMediaViewRectangleStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTwitterAlbumMediaViewRectangleStyle.h; sourceTree = "<group>"; };
 		561F64E01A65065200FFC830 /* SKTwitterAlbumMediaViewRectangleStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTwitterAlbumMediaViewRectangleStyle.m; sourceTree = "<group>"; };
 		561F64E21A6614F900FFC830 /* SKTwitterCollectionViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTwitterCollectionViewDelegate.h; sourceTree = "<group>"; };
+		56392A431A67775C00418116 /* SKTwitterCollectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTwitterCollectionHeaderView.h; sourceTree = "<group>"; };
+		56392A441A67775C00418116 /* SKTwitterCollectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTwitterCollectionHeaderView.m; sourceTree = "<group>"; };
+		56392A451A67775C00418116 /* SKTwitterCollectionHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SKTwitterCollectionHeaderView.xib; sourceTree = "<group>"; };
 		5643A4761A5E66C70019466E /* SKTwitterViewControllerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SKTwitterViewControllerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5643A47A1A5E66C70019466E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5643A47B1A5E66C70019466E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -238,6 +243,9 @@
 				567E645F1A664769003B98BF /* SKTwitterCollectionFooterView.h */,
 				567E64601A664769003B98BF /* SKTwitterCollectionFooterView.m */,
 				567E64611A664769003B98BF /* SKTwitterCollectionFooterView.xib */,
+				56392A431A67775C00418116 /* SKTwitterCollectionHeaderView.h */,
+				56392A441A67775C00418116 /* SKTwitterCollectionHeaderView.m */,
+				56392A451A67775C00418116 /* SKTwitterCollectionHeaderView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -336,6 +344,7 @@
 				561F64D61A64FC0600FFC830 /* SKTwitterAlbumMediaViewSquareStyle.xib in Resources */,
 				561F64D81A64FDC500FFC830 /* SKTwitterAlbumMediaViewRectangleStyle.xib in Resources */,
 				146D0E4B1A61637C00E91676 /* SKTwitterMediaView.xib in Resources */,
+				56392A471A67775C00418116 /* SKTwitterCollectionHeaderView.xib in Resources */,
 				5643A4851A5E66C70019466E /* Main.storyboard in Resources */,
 				567E64631A664769003B98BF /* SKTwitterCollectionFooterView.xib in Resources */,
 				5643A4BC1A5F63B70019466E /* Images.xcassets in Resources */,
@@ -404,6 +413,7 @@
 				5643A47C1A5E66C70019466E /* main.m in Sources */,
 				14EB91691A64221C00B2F691 /* SKTwitterMediaCollectionViewFlowLayout.m in Sources */,
 				569492421A5FDB2D00B3626A /* SKTwitterAlbumMediaDataItem.m in Sources */,
+				56392A461A67775C00418116 /* SKTwitterCollectionHeaderView.m in Sources */,
 				5643A4B11A5E6DC20019466E /* SKTwitterTableLayoutAttributes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -511,6 +521,7 @@
 			baseConfigurationReference = CC911A1D44836951F09FA2A6 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = SKTwitterViewControllerDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -523,6 +534,7 @@
 			baseConfigurationReference = B7353E869423FB0CA2C1ABCA /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = SKTwitterViewControllerDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

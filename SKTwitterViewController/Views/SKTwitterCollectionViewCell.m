@@ -61,7 +61,7 @@ CGFloat const kSKTwitterCollectionViewCellAvatorImageWidth = 44.0f;
 - (void)awakeFromNib {
     [super awakeFromNib];
     
-    // TODO:
+    // TODO: 
 }
 
 - (void)setAlbumIndexPath:(NSIndexPath *)albumIndexPath
