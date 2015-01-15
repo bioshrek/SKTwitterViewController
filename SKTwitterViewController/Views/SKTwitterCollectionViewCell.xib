@@ -55,7 +55,7 @@
                                     <constraint firstAttribute="height" constant="44" id="Qib-aF-RnH"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
-                                <state key="normal" title="9999" image="reply">
+                                <state key="normal" title="9999">
                                     <color key="titleColor" red="0.35294118520000001" green="0.63921570780000003" blue="0.97254908080000002" alpha="1" colorSpace="deviceRGB"/>
                                 </state>
                                 <connections>
@@ -133,7 +133,4 @@
             <point key="canvasLocation" x="140" y="155"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="reply" width="32" height="32"/>
-    </resources>
 </document>

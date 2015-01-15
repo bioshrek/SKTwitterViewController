@@ -32,7 +32,6 @@
 		5643A4B41A5E6E1C0019466E /* SKTwitterTableLayoutInvalidationContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 5643A4B31A5E6E1C0019466E /* SKTwitterTableLayoutInvalidationContext.m */; };
 		5643A4B81A5E6E800019466E /* SKTwitterCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5643A4B61A5E6E800019466E /* SKTwitterCollectionViewCell.m */; };
 		5643A4B91A5E6E810019466E /* SKTwitterCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5643A4B71A5E6E800019466E /* SKTwitterCollectionViewCell.xib */; };
-		5643A4BC1A5F63B70019466E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5643A4BB1A5F63B70019466E /* Images.xcassets */; };
 		5643A4C91A5FAF0F0019466E /* SKTwitterAlbumDataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5643A4C81A5FAF0F0019466E /* SKTwitterAlbumDataItem.m */; };
 		567E64621A664769003B98BF /* SKTwitterCollectionFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 567E64601A664769003B98BF /* SKTwitterCollectionFooterView.m */; };
 		567E64631A664769003B98BF /* SKTwitterCollectionFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 567E64611A664769003B98BF /* SKTwitterCollectionFooterView.xib */; };
@@ -90,7 +89,6 @@
 		5643A4B61A5E6E800019466E /* SKTwitterCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTwitterCollectionViewCell.m; sourceTree = "<group>"; };
 		5643A4B71A5E6E800019466E /* SKTwitterCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SKTwitterCollectionViewCell.xib; sourceTree = "<group>"; };
 		5643A4BA1A5E8C770019466E /* SKTwitterCollectionViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTwitterCollectionViewDataSource.h; sourceTree = "<group>"; };
-		5643A4BB1A5F63B70019466E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5643A4C61A5FAF0F0019466E /* SKTwitterAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTwitterAlbum.h; sourceTree = "<group>"; };
 		5643A4C71A5FAF0F0019466E /* SKTwitterAlbumDataItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTwitterAlbumDataItem.h; sourceTree = "<group>"; };
 		5643A4C81A5FAF0F0019466E /* SKTwitterAlbumDataItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTwitterAlbumDataItem.m; sourceTree = "<group>"; };
@@ -203,7 +201,6 @@
 				5643A4A21A5E671D0019466E /* Layout */,
 				5643A4A11A5E670E0019466E /* Views */,
 				5643A4A01A5E67050019466E /* Controllers */,
-				5643A4BB1A5F63B70019466E /* Images.xcassets */,
 			);
 			path = SKTwitterViewController;
 			sourceTree = "<group>";
@@ -347,7 +344,6 @@
 				56392A471A67775C00418116 /* SKTwitterCollectionHeaderView.xib in Resources */,
 				5643A4851A5E66C70019466E /* Main.storyboard in Resources */,
 				567E64631A664769003B98BF /* SKTwitterCollectionFooterView.xib in Resources */,
-				5643A4BC1A5F63B70019466E /* Images.xcassets in Resources */,
 				5643A4871A5E66C70019466E /* Images.xcassets in Resources */,
 				567E64661A66772C003B98BF /* LaunchScreen.xib in Resources */,
 				5643A4B91A5E6E810019466E /* SKTwitterCollectionViewCell.xib in Resources */,
