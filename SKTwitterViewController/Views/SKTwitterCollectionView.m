@@ -8,7 +8,6 @@
 
 #import "SKTwitterCollectionView.h"
 
-#import "SKTwitterMediaView.h"
 #import "SKTwitterCollectionViewCell.h"
 #import "SKTwitterMediaCollectionViewFlowLayout.h"
 #import "SKTwitterCollectionHeaderView.h"

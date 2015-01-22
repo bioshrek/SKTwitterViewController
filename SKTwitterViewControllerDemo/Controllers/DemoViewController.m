@@ -19,6 +19,8 @@
 
 @property (nonatomic, strong) NSMutableArray *commentList;
 
+@property (weak, nonatomic) IBOutlet UISwitch *footerViewSwitch;
+
 @end
 
 @implementation DemoViewController
@@ -368,7 +370,8 @@
             show = NO;
         } break;
         case 1: {
-            show = YES;
+            NSLog(@"should show footer view...");
+            show = self.footerViewSwitch.on;
         } break;
         default: break;
     }
@@ -490,8 +493,13 @@
 }
 
 - (IBAction)reloadSectionButtonPressed:(id)sender {
-    [self.collectionView reloadItemsAtIndexPaths:@[
-                                                   [NSIndexPath indexPathForItem:0 inSection:0]
-                                                   ]];
+    NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+    NSInteger index = [self.commentList count];
+    for (int i = 0; i < 2; i++) {
+        [self.commentList addObject:[self sampleComment]];
+        [indexPaths addObject:[NSIndexPath indexPathForItem:(i + index) inSection:1]];
+    }
+    [self.collectionView insertItemsAtIndexPaths:indexPaths];
 }
+
 @end

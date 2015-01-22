@@ -324,7 +324,7 @@
 - (BOOL)collectionView:(SKTwitterCollectionView *)collectionView shouldShowHeaderViewInSection:(NSInteger)section
 {
     NSAssert(NO, @"subclass is required to override this method");
-    return nil;
+    return NO;
 }
 
 - (NSAttributedString *)collectionView:(SKTwitterCollectionView *)collectionView headerViewAttributedTextInSection:(NSInteger)section

@@ -8,6 +8,8 @@
 
 #import "SKTwitterCollectionHeaderView.h"
 
+#import "SKTwitterViewControllerBundle.h"
+
 CGFloat const kSKTwitterCollectionHeaderViewHeight = 44.0f;
 
 @interface SKTwitterCollectionHeaderView ()
@@ -27,7 +29,7 @@ CGFloat const kSKTwitterCollectionHeaderViewHeight = 44.0f;
 
 + (UINib *)nib
 {
-    return [UINib nibWithNibName:NSStringFromClass([self class]) bundle:[NSBundle mainBundle]];
+    return [UINib nibWithNibName:NSStringFromClass([self class]) bundle:[SKTwitterViewControllerBundle sharedBundle]];
 }
 
 + (NSString *)cellReuseIdentifier

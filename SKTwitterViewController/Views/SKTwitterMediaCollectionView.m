@@ -8,8 +8,6 @@
 
 #import "SKTwitterMediaCollectionView.h"
 
-#import "SKTwitterMediaView.h"
-
 @implementation SKTwitterMediaCollectionView
 
 #pragma mark - life cycle

@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SKTwitterAlbumMedia.h"
-
 @protocol SKTwitterAlbum <NSObject>
 
 - (NSString *)userName;

@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SKTwitterViewController/Views/SKTwitterCollectionViewCell.m"
-            timestampString = "442899788.673374"
+            timestampString = "443587526.095941"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "130"
@@ -24,11 +24,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SKTwitterViewControllerDemo/DemoViewController.m"
-            timestampString = "442986386.26817"
+            timestampString = "443335213.947749"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
             landmarkName = "-sampleAlbum"
             landmarkType = "5">
          </BreakpointContent>
@@ -40,11 +40,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SKTwitterViewControllerDemo/DemoViewController.m"
-            timestampString = "442986386.26817"
+            timestampString = "443335213.947749"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
             landmarkName = "-sampleAlbum"
             landmarkType = "5">
          </BreakpointContent>

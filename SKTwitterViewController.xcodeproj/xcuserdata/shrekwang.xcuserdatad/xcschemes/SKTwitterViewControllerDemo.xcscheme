@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5643A4751A5E66C70019466E"
-               BuildableName = "SKTwitterViewControllerDemo.app"
+               BuildableName = "SKTwitterViewController.app"
                BlueprintName = "SKTwitterViewControllerDemo"
-               ReferencedContainer = "container:SKTwitterViewControllerDemo.xcodeproj">
+               ReferencedContainer = "container:SKTwitterViewController.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,7 +31,7 @@
                BlueprintIdentifier = "5643A48E1A5E66C70019466E"
                BuildableName = "SKTwitterViewControllerDemoTests.xctest"
                BlueprintName = "SKTwitterViewControllerDemoTests"
-               ReferencedContainer = "container:SKTwitterViewControllerDemo.xcodeproj">
+               ReferencedContainer = "container:SKTwitterViewController.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -49,7 +49,7 @@
                BlueprintIdentifier = "5643A48E1A5E66C70019466E"
                BuildableName = "SKTwitterViewControllerDemoTests.xctest"
                BlueprintName = "SKTwitterViewControllerDemoTests"
-               ReferencedContainer = "container:SKTwitterViewControllerDemo.xcodeproj">
+               ReferencedContainer = "container:SKTwitterViewController.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5643A4751A5E66C70019466E"
-            BuildableName = "SKTwitterViewControllerDemo.app"
+            BuildableName = "SKTwitterViewController.app"
             BlueprintName = "SKTwitterViewControllerDemo"
-            ReferencedContainer = "container:SKTwitterViewControllerDemo.xcodeproj">
+            ReferencedContainer = "container:SKTwitterViewController.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -76,9 +76,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5643A4751A5E66C70019466E"
-            BuildableName = "SKTwitterViewControllerDemo.app"
+            BuildableName = "SKTwitterViewController.app"
             BlueprintName = "SKTwitterViewControllerDemo"
-            ReferencedContainer = "container:SKTwitterViewControllerDemo.xcodeproj">
+            ReferencedContainer = "container:SKTwitterViewController.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5643A4751A5E66C70019466E"
-            BuildableName = "SKTwitterViewControllerDemo.app"
+            BuildableName = "SKTwitterViewController.app"
             BlueprintName = "SKTwitterViewControllerDemo"
-            ReferencedContainer = "container:SKTwitterViewControllerDemo.xcodeproj">
+            ReferencedContainer = "container:SKTwitterViewController.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

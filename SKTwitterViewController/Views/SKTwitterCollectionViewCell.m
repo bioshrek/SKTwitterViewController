@@ -9,8 +9,7 @@
 #import "SKTwitterCollectionViewCell.h"
 
 #import "SKTwitterTableLayoutAttributes.h"
-
-#import "SKTwitterMediaView.h"
+#import "SKTwitterViewControllerBundle.h"
 
 #pragma mark - layout constants
 
@@ -48,7 +47,8 @@ CGFloat const kSKTwitterCollectionViewCellAvatorImageWidth = 44.0f;
 
 + (UINib *)nib
 {
-    return [UINib nibWithNibName:NSStringFromClass([self class]) bundle:[NSBundle mainBundle]];
+    UINib *nib = [UINib nibWithNibName:NSStringFromClass([self class]) bundle:[SKTwitterViewControllerBundle sharedBundle]];
+    return nib;
 }
 
 + (NSString *)cellReuseIdentifier
