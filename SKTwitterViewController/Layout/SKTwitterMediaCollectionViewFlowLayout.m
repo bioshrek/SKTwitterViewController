@@ -30,7 +30,7 @@
 - (void)commonInitSKTwitterMediaCollectionViewFlowLayout
 {
     self.scrollDirection = UICollectionViewScrollDirectionVertical;
-    self.sectionInset = UIEdgeInsetsMake(4.0f, 8.0f, 4.0f, 8.0f);
+    self.sectionInset = UIEdgeInsetsMake(4.0f, 0.0f, 4.0f, 0.0f);
     self.minimumLineSpacing = 8.0f;
     self.minimumInteritemSpacing = 8.0f;
 }
@@ -55,14 +55,80 @@
 {
     NSArray *attributesInRect = [super layoutAttributesForElementsInRect:rect];
     
-    [attributesInRect enumerateObjectsUsingBlock:^(UICollectionViewLayoutAttributes *attributesItem, NSUInteger idx, BOOL *stop) {
-        if (attributesItem.representedElementCategory == UICollectionElementCategoryCell) {
-            [self configureMediaCellLayoutAttributes:attributesItem];
+    // special layout for section with only 4 items
+    NSMutableSet *specialSectionSet = [[NSMutableSet alloc] init];
+    NSUInteger sectionCount = [self.collectionView.dataSource numberOfSectionsInCollectionView:self.collectionView];
+    for (NSInteger section = 0; section < sectionCount; section++) {
+        @autoreleasepool {
+            NSUInteger itemCount = [self.collectionView.dataSource collectionView:self.collectionView numberOfItemsInSection:section];
+            if (4 == itemCount) {  // special section
+                [specialSectionSet addObject:[NSNumber numberWithInteger:section]];
+            }
         }
-        else {
-            attributesItem.zIndex = -1;
+    }
+    
+    // adjust originX, make cell align left ASAP.
+    CGRect previousFrame = CGRectZero;
+    CGFloat originY = 0.0f;
+    NSInteger specialItemIndex = NSNotFound;
+    for (NSUInteger i = 0; i < [attributesInRect count]; i++) {
+        @autoreleasepool {
+            UICollectionViewLayoutAttributes *layoutAttributes = [attributesInRect objectAtIndex:i];
+            CGRect originalFrame = layoutAttributes.frame;
+            UIEdgeInsets insetForSection = self.sectionInset;
+            
+            // tag the begging and ending of special section
+            if ([specialSectionSet containsObject:[NSNumber numberWithInteger:layoutAttributes.indexPath.section]]) {
+                if (NSNotFound == specialItemIndex) {
+                    specialItemIndex = 0;
+                } else {
+                    specialItemIndex++;
+                }
+            } else {
+                specialItemIndex = NSNotFound;
+            }
+            
+            // adjust origin X
+            CGFloat y = CGRectGetMinY(layoutAttributes.frame);
+            if (y > originY) {  // new line
+                
+                // 1 row can at least layout 2 items
+                // adjust special layout
+                if (3 == specialItemIndex) {  // found special case
+                    UICollectionViewLayoutAttributes *previousLayoutAttributes = [attributesInRect objectAtIndex:i - 1];
+                    previousLayoutAttributes.frame = CGRectMake(insetForSection.left + self.minimumInteritemSpacing,
+                                                                originalFrame.origin.y,
+                                                                originalFrame.size.width,
+                                                                originalFrame.size.height);
+                    
+                    layoutAttributes.frame = CGRectMake(CGRectGetMaxX(previousLayoutAttributes.frame) + self.minimumInteritemSpacing,
+                                                        originalFrame.origin.y,
+                                                        originalFrame.size.width,
+                                                        originalFrame.size.height);
+                } else {  // normal case
+                    layoutAttributes.frame = CGRectMake(insetForSection.left + self.minimumInteritemSpacing,
+                                                        originalFrame.origin.y,
+                                                        originalFrame.size.width,
+                                                        originalFrame.size.height);
+                }
+            } else {  // same line
+                
+                layoutAttributes.frame = CGRectMake(CGRectGetMaxX(previousFrame) + self.minimumInteritemSpacing,
+                                                    originalFrame.origin.y,
+                                                    originalFrame.size.width,
+                                                    originalFrame.size.height);
+            }
+            originY = y;
+            previousFrame = layoutAttributes.frame;
+            
+            // calculate custom layout attributes
+            if (layoutAttributes.representedElementCategory == UICollectionElementCategoryCell) {
+                [self configureMediaCellLayoutAttributes:layoutAttributes];
+            }
+            
+            
         }
-    }];
+    }
     
     return attributesInRect;
 }
